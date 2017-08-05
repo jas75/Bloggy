@@ -1,2 +1,2 @@
-# Angular-blog
-Let's make my first angular blog
+# Bloggy
+My first Angular2 blog
