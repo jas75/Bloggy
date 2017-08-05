@@ -1,0 +1,29 @@
+{
+  "name": "bloggy",
+  "version": "1.0.0",
+  "description": "First angular blog",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jas75/Bloggy.git"
+  },
+  "keywords": [
+    "Blog",
+    "Bloggy",
+    "Social",
+    "Network"
+  ],
+  "author": "Jason Azoulay <azoulayjason&gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jas75/Bloggy/issues"
+  },
+  "homepage": "https://github.com/jas75/Bloggy#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "mongoose": "^4.11.5"
+  }
+}
