@@ -3,9 +3,9 @@ mongoose.Promise = global.Promise;
 const Schema= mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 
-/*
-* CHECKERS
-*/
+/* =====
+ CHECKERS
+======== */
 let emailLengthChecker= (email)=>{
 	if (!email) {
 		return false;
@@ -30,9 +30,34 @@ let validEmailChecker = (email)=>{
 	}
 };
 
- /*
- * VALIDATORS
- */
+let usernameLengthChecker= (username)=>{
+	if(!username){
+		return false;
+	}
+	else{
+		if (username.length < 5 || username.length > 30) {
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+};
+
+let validUsername = (username)=>{
+	if(!username){
+		return false;
+	}
+	else{
+		const regExp= new RegExp(/^[a-zA-z0-9]+$/);
+		return regExp.test(username);
+	}
+};
+
+
+ /* =======
+  VALIDATORS
+ ========= */
 const emailValidators= [
 	{
 		validator: emailLengthChecker,
@@ -43,11 +68,27 @@ const emailValidators= [
 	}
 ];
 
+const usernameValidators = [
+	{
+		validator: usernameLengthChecker,
+		message :'Username must be at least 5 characters but no more than 30'
+	},
+	{
+		validator: validUsername,
+		message:'Username must not have any special characters'
+	}
+];
+
+/* ========
+Schema for user
+========= */
 const userSchema=new Schema({
 	email: { type: String, required: true, unique: true, lowercase: true, validate: emailValidators},
-	username: { type: String, required: true, unique: true, lowercase: true},
+	username: { type: String, required: true, unique: true, lowercase: true, validate: usernameValidators},
 	password: { type: String, required: true}
 });
+
+
 // Middleware that encrypte password 
 userSchema.pre('save', function(next){
 	if(!this.isModified('password'))
