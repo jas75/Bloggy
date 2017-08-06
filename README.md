@@ -1,2 +1,4 @@
 # Bloggy
-My first Angular2 blog
+My Angular2 blog
+
+A little blog application 
