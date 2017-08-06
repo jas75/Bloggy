@@ -6,6 +6,8 @@ mongoose.Promise = global.Promise;
 const config=require('./config/database');
 const path=require('path');
 const authentication = require('./routes/authentication')(router);
+const bodyParser=require('body-parser');
+
 
 
 mongoose.connect(config.uri, (err) => {
@@ -17,6 +19,12 @@ mongoose.connect(config.uri, (err) => {
   }
 });
 
+/*
+* Express Middlewares
+*/
+// Place before the routes
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/public'));
 app.use('/authentication', authentication);
