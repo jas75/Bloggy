@@ -50,7 +50,7 @@ module.exports= (router)=>{
 							}
 						}
 						else{
-							res.json({success:true,message:'Account registered'})
+							res.json({success:true,message:'Acount registered'})
 						}
 					});
 				}
