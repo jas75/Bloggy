@@ -35,6 +35,14 @@ module.exports= (router)=>{
 										if (err.errors.username) {
 											res.json({success:false,message:err.errors.username.message});
 										}
+										else{
+											if (err.errors.password) {
+												res.json({success:false,message:err.errors.password.message});
+											}
+											else{
+												res.json({ success:false,message:err});
+											}
+										}
 									}
 								}else{
 									res.json({success:false,message:'Could not save user :', err});
