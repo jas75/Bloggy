@@ -8,49 +8,92 @@
            	</div>
         </div> 
 		<div class="main-login main-center">
-			<form [formGroup]='form'>
+			<form [formGroup]='form' (submit)="onRegisterSubmit()">
 				<div class="form-group">
-					<label for="email" class="cols-sm-2 control-label">Your Email</label>
+					<label for="email" class="cols-sm-2 control-label">Email</label>
 					<div class="cols-sm-10">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email" formControlName="email"/>
+						<div [ngClass]="{'has-error':(form.controls.email.errors && form.controls.email.dirty),'has-success':!form.controls.email.errors}">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+								<input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email" formControlName="email"/>
+							</div>
+							<ul class="help-block">
+								<li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">This field is required</li>
+								<li *ngIf="form.controls.email.errors?.minlength && form.controls.email.dirty || form.controls.email.errors?.maxlength && form.controls.email.dirty">Minimum characters: 5, Maximum characters: 40</li>
+								<li *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty">
+									Email must be valid
+								</li>
+							</ul>
 						</div>
+						
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="username" class="cols-sm-2 control-label">Username</label>
 					<div class="cols-sm-10">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="username" id="username"  placeholder="Enter your Username" formControlName="username" />
+						<div [ngClass]="{'has-error':(form.controls.username.errors && form.controls.username.dirty),'has-success':!form.controls.username.errors}">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+								<input type="text" class="form-control" name="username" id="username"  placeholder="Enter your Username" formControlName="username" />
+							</div>
+
+							<ul class="help-block">
+								<li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is required</li>
+        						<li *ngIf="form.controls.username.errors?.minlength && form.controls.username.dirty || form.controls.username.errors?.maxlength && form.controls.username.dirty ">Minimum characters: 3, Maximum characters: 30</li>
+        						<li *ngIf="form.controls.username.errors?.validateUsername && form.controls.username.dirty">
+        							Username must not have any special characters 
+        						</li>
+							</ul>
 						</div>
+						
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="password" class="cols-sm-2 control-label">Password</label>
 					<div class="cols-sm-10">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password" formControlName="password"/>
+						<div [ngClass]="{'has-error':(form.controls.password.errors && form.controls.password.dirty),'has-success':!form.controls.password.errors}">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+								<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password" formControlName="password"/>
+							</div>
+
+							<ul class="help-block">
+								<li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">This field is required</li>
+								<li *ngIf="form.controls.password.errors?.minlength && form.controls.password.dirty || form.controls.password.errors?.maxlength && form.controls.password.dirty ">Minimum characters: 5, Maximum characters: 40</li>
+								<li *ngIf="form.controls.password.errors?.validatePassword && form.controls.password.dirty">
+									Must have at least one uppercase, lowercase, special character, and number
+								</li>
+							</ul>
 						</div>
+						
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
 					<div class="cols-sm-10">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password" formControlName="confirm"/>
+						<div [ngClass]="{'has-error': (form.controls.confirm.errors && form.controls.confirm.dirty) || (form.errors?.matchingPasswords && form.controls.confirm.dirty), 'has-success': !form.controls.confirm.errors && !form.errors?.matchingPasswords}">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+								<input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password" formControlName="confirm"/>
+							</div>
+
+							<ul class="help-block">
+								<li *ngIf="form.controls.confirm.errors?.required && form.controls.confirm.dirty">This field is required</li>
+								<li *ngIf="form.controls.confirm.errors?.minLength || form.controls.confirm.errors?.maxLength">
+									Minimum characters: 5, Max characters: 40
+								</li>
+								<li *ngIf="form.errors?.matchingPasswords && form.controls.confirm.dirty">Passwords do not match</li>
+							</ul>
 						</div>
+						
 					</div>
 				</div>
 
 				<div class="form-group ">
-					<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+					<button [disabled]="!form.valid" type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
 				</div>
 				<div class="login-register">
 		            <a href="index.php">Login</a>
