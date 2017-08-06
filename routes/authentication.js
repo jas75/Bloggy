@@ -27,7 +27,13 @@ module.exports= (router)=>{
 							if (err.code === 11000) {
 								res.json({success:false,message:'Username or e-mail already exists'});
 							}else{
-								res.json({success:false,message:'Could not save user :', err});
+								if (err.errors) {
+									if (err.errors.email) {
+										res.json({success:false, message:err.errors.email.message});
+									}
+								}else{
+									res.json({success:false,message:'Could not save user :', err});
+								}
 							}
 						}
 						else{
