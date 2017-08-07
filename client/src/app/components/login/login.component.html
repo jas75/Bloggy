@@ -1,0 +1,77 @@
+
+
+	<div class="row">
+	
+        <div class="col-md-6 col-md-offset-3">
+  <h4 style="border-bottom: 1px solid #c5c5c5;">
+    <i class="glyphicon glyphicon-user">
+    </i>
+    Account Access
+  </h4>
+
+  <div class="row show-hide-message">
+    <div [ngClass]="messageClass">
+      {{ message }}
+    </div>
+  </div>
+  <div style="padding: 20px;" *ngIf="!forgot">
+  <form accept-charset="UTF-8" role="form" id="login-form" (submit)="onLoginSubmit()" [formGroup]="form">
+      <fieldset>
+
+      <div [ngClass]="">
+        
+      </div>
+        <div class="form-group input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-user"></i>
+          </span>
+          <input class="form-control" placeholder="Username" name="username"  autofocus="">
+        </div>
+        <div class="form-group input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-lock">
+            </i>
+          </span>
+          <input class="form-control" placeholder="Password" name="password" type="password" >
+        </div>
+        <div class="form-group">
+          <button [disabled]="processing || !form.valid"type="submit" class="btn btn-primary btn-block">
+            Log in
+          </button>
+          <p class="help-block">
+            <a class="pull-right text-muted" (click)="onForgotClick()"><small>Forgot your password?</small></a>
+          </p>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div style="" *ngIf="forgot">
+    <h4 class="">
+      Forgot your password?
+    </h4>
+    <form [formGroup]="forgotForm" accept-charset="UTF-8" role="form" id="login-recordar" method="post">
+      <fieldset>
+        <span class="help-block">
+          Email address you use to log in to your account
+          <br>
+          We'll send you an email with instructions to choose a new password.
+        </span>
+        <div class="form-group input-group">
+          <span class="input-group-addon">
+            @
+          </span>
+          <input class="form-control" placeholder="Email" name="email" type="email" required="">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="btn-olvidado">
+          Continue
+        </button>
+        <p class="help-block">
+          <a class="text-muted" (click)="accountAccess()"><small>Account Access</small></a>
+        </p>
+      </fieldset>
+    </form>
+  </div>
+</div>
+	</div>
+
+
