@@ -17,7 +17,7 @@
 				</div>
 			</div>
 				<div class="form-group">
-					<label for="email" class="cols-sm-2 control-label">Email</label>
+					
 					<div class="cols-sm-10">
 						<div [ngClass]="{'has-error':(form.controls.email.errors && form.controls.email.dirty) || (!emailValid && form.controls.email.dirty),'has-success':!form.controls.email.errors && emailValid}">
 							<div class="input-group">
@@ -40,7 +40,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="username" class="cols-sm-2 control-label">Username</label>
+					
 					<div class="cols-sm-10">
 						<div [ngClass]="{'has-error': (form.controls.username.errors && form.controls.username.dirty) || (!usernameValid && form.controls.username.dirty), 'has-success': !form.controls.username.errors && usernameValid}">
 							<div class="input-group">
@@ -62,7 +62,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="password" class="cols-sm-2 control-label">Password</label>
+					
 					<div class="cols-sm-10">
 						<div [ngClass]="{'has-error':(form.controls.password.errors && form.controls.password.dirty),'has-success':!form.controls.password.errors}">
 							<div class="input-group">
@@ -83,7 +83,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+					
 					<div class="cols-sm-10">
 						<div [ngClass]="{'has-error': (form.controls.confirm.errors && form.controls.confirm.dirty) || (form.errors?.matchingPasswords && form.controls.confirm.dirty), 'has-success': !form.controls.confirm.errors && !form.errors?.matchingPasswords}">
 							<div class="input-group">

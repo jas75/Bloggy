@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,Validators,FormControl } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,9 @@ export class LoginComponent implements OnInit {
   processing=false;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private authService:AuthService,
+    private router: Router
     ) { 
     this.createForm();
   }
@@ -38,7 +42,23 @@ export class LoginComponent implements OnInit {
       password: this.form.get('password').value
     }
 
-
+    this.authService.login(user).subscribe(data=>{
+      if(!data.success){
+        this.messageClass="alert alert-danger";
+        this.message=data.message;
+        this.processing=false;
+        this.enableForm();
+      }
+      else{
+        this.messageClass="alert alert-success";
+        this.message=data.message;
+        this.authService.storeUserData(data.token,data.user);
+        setTimeout(()=>{
+          this.router.navigate(['/news']);
+        },2000);
+        this.disableForm();
+      }
+    });
   }
 
 
