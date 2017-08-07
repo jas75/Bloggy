@@ -136,7 +136,7 @@ userSchema.pre('save', function(next){
 });
 
 // Return true or false depending the matching passwords for the login part
-userSchema.methods.comparePassword= (password)=>{
+userSchema.methods.comparePassword= function(password){
 	return bcrypt.compareSync(password, this.password);
 }
 module.exports = mongoose.model('User',userSchema);
