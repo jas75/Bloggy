@@ -13,6 +13,11 @@ export class RegisterComponent implements OnInit {
 	form: FormGroup;
   messageClass;
   message;
+  processing=false;
+  emailValid;
+  emailMessage;
+  usernameValid;
+  usernameMessage;
 
   constructor(
   	private formBuilder: FormBuilder,
@@ -43,6 +48,20 @@ export class RegisterComponent implements OnInit {
         ])],
   		confirm:['',Validators.required]
   	},{ validator: this.matchingPasswords('password','confirm')});
+  }
+
+  disableForm(){
+    this.form.controls['email'].disable();
+    this.form.controls['username'].disable();
+    this.form.controls['password'].disable();
+    this.form.controls['confirm'].disable();
+  }
+
+  enableForm(){
+    this.form.controls['email'].enable();
+    this.form.controls['username'].enable();
+    this.form.controls['password'].enable();
+    this.form.controls['confirm'].enable();
   }
 
   validateEmail(controls){
@@ -87,6 +106,8 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit(){
+    this.processing=true;
+    this.disableForm();
   	const user={
       email: this.form.get('email').value,
       username: this.form.get('username').value,
@@ -96,10 +117,38 @@ export class RegisterComponent implements OnInit {
       if(!data.success){
         this.messageClass='alert alert-danger';
         this.message=data.message;
+        this.processing=false;
+        this.enableForm();
       }
       else{
         this.messageClass='alert alert-success';
         this.message=data.message;
+      }
+    });
+  }
+
+  checkEmail(){
+    this.authService.checkEmail(this.form.get('email').value).subscribe(data=>{
+      if(!data.success){
+        this.emailValid=false;
+        this.emailMessage=data.message;
+      }
+      else{
+        this.emailValid=true;
+        this.emailMessage=data.message;
+      }
+    });
+  }
+
+  checkUsername(){
+    this.authService.checkUsername(this.form.get('username').value).subscribe(data=>{
+      if(!data.success){
+        this.usernameValid=false;
+        this.usernameMessage=data.message;
+      }
+      else{
+        this.usernameValid=true;
+        this.usernameMessage=data.message;
       }
     });
   }

@@ -15,4 +15,12 @@ export class AuthService {
   	return this.http.post(this.domain + '/authentication/register',user).map(res=>res.json());
   }
 
+  checkEmail(email){
+  	return this.http.get(this.domain + '/authentication/checkEmail/' + email).map(res=>res.json());
+  }
+
+  checkUsername(username){
+  	return this.http.get(this.domain + '/authentication/checkUsername/' + username).map(res=>res.json());
+  }
+
 }

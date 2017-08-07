@@ -18,10 +18,11 @@
 				<div class="form-group">
 					<label for="email" class="cols-sm-2 control-label">Email</label>
 					<div class="cols-sm-10">
-						<div [ngClass]="{'has-error':(form.controls.email.errors && form.controls.email.dirty),'has-success':!form.controls.email.errors}">
+						<div [ngClass]="{'has-error':(form.controls.email.errors && form.controls.email.dirty) || (!emailValid && form.controls.email.dirty),'has-success':!form.controls.email.errors && emailValid}">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-								<input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email" formControlName="email"/>
+								<input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email" formControlName="email"
+								(blur)="checkEmail()" />
 							</div>
 							<ul class="help-block">
 								<li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">This field is required</li>
@@ -29,6 +30,8 @@
 								<li *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty">
 									Email must be valid
 								</li>
+								<li *ngIf="emailMessage">{{ emailMessage }}</li>
+
 							</ul>
 						</div>
 						
@@ -38,10 +41,10 @@
 				<div class="form-group">
 					<label for="username" class="cols-sm-2 control-label">Username</label>
 					<div class="cols-sm-10">
-						<div [ngClass]="{'has-error':(form.controls.username.errors && form.controls.username.dirty),'has-success':!form.controls.username.errors}">
+						<div [ngClass]="{'has-error': (form.controls.username.errors && form.controls.username.dirty) || (!usernameValid && form.controls.username.dirty), 'has-success': !form.controls.username.errors && usernameValid}">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-								<input type="text" class="form-control" name="username" id="username"  placeholder="Enter your Username" formControlName="username" />
+								<input type="text" class="form-control" name="username" id="username"  placeholder="Enter your Username" formControlName="username" (blur)="checkUsername()"/>
 							</div>
 
 							<ul class="help-block">
@@ -50,6 +53,7 @@
         						<li *ngIf="form.controls.username.errors?.validateUsername && form.controls.username.dirty">
         							Username must not have any special characters 
         						</li>
+        						<li *ngIf="usernameMessage">{{ usernameMessage }} </li>
 							</ul>
 						</div>
 						
@@ -99,7 +103,7 @@
 				</div>
 
 				<div class="form-group ">
-					<button [disabled]="!form.valid" type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+					<button [disabled]="!form.valid || processing || !emailValid || !usernameValid" type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
 				</div>
 				<div class="login-register">
 		            <a href="index.php">Login</a>
