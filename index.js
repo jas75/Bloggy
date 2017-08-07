@@ -7,6 +7,7 @@ const config=require('./config/database');
 const path=require('path');
 const authentication = require('./routes/authentication')(router);
 const bodyParser=require('body-parser');
+const cors=require('cors');
 
 
 
@@ -19,9 +20,14 @@ mongoose.connect(config.uri, (err) => {
   }
 });
 
-/*
-* Express Middlewares
-*/
+
+/* =====================
+  Express Middlewares
+===================== */
+
+app.use(cors({
+	origin:'http://localhost:4200'
+}));
 // Place before the routes
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());

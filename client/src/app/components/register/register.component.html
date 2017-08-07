@@ -9,6 +9,12 @@
         </div> 
 		<div class="main-login main-center">
 			<form [formGroup]='form' (submit)="onRegisterSubmit()">
+
+			<div class="row show-hide-message">
+				<div [ngClass]="messageClass">
+					{{message}}
+				</div>
+			</div>
 				<div class="form-group">
 					<label for="email" class="cols-sm-2 control-label">Email</label>
 					<div class="cols-sm-10">
