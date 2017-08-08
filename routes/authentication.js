@@ -136,5 +136,9 @@ module.exports= (router)=>{
 			}
 		}
 	});
+
+	router.get('/profile',(req,res)=>{
+		res.send('test');
+	});
 	return router;
 };
