@@ -18,8 +18,7 @@ export class NavbarComponent implements OnInit {
   	private router:Router,
   	private flashMessagesService:FlashMessagesService
   	) {
-    
-    
+      
      }  
 
   
@@ -28,24 +27,18 @@ export class NavbarComponent implements OnInit {
   	this.authService.logout();
   	this.flashMessagesService.show('You are logged out',{cssClass: 'alert-info'});
   	this.router.navigate(['/']);
-    this.usernameNavbar=null;
   }
 
   usernameNav(){
-
-    if (this.authService.loggedIn()) {
       this.authService.getProfile().subscribe(data=>{
         this.usernameNavbar=data.user.username;
-      });
-    }
-    
+      }); 
   }
 
   ngOnInit() {
-    if (this.authService.loggedIn()) {
       this.usernameNav();
       this.authService.navbarUsernameSubject.subscribe(data=> this.usernameNavbar=data);
-    }
+      console.log(this.usernameNavbar);
   }
 
 }
