@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,Validators,FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { FlashMessagesService } from 'angular2-flash-messages';
+
+
 
 @Component({
   selector: 'app-login',
@@ -20,7 +23,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService:AuthService,
-    private router: Router
+    private router: Router,
+    private flashMessagesService:FlashMessagesService
     ) { 
     this.createForm();
   }
@@ -54,9 +58,11 @@ export class LoginComponent implements OnInit {
         this.message=data.message;
         this.authService.storeUserData(data.token,data.user);
         setTimeout(()=>{
-          this.router.navigate(['/news']);
+          this.router.navigate(['/profile']);
         },2000);
         this.disableForm();
+        this.flashMessagesService.show('Welcome to bloggy, '+ this.form.get('username').value +' !',{cssClass: 'alert-info'});
+        this.authService.addUsernameNavbar(data.user.username);
       }
     });
   }

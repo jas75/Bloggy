@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions} from '@angular/http';
+import { Subject } from 'rxjs/Subject'; 
 import 'rxjs/add/operator/map';
-
+import { tokenNotExpired } from 'angular2-jwt';
 @Injectable()
 export class AuthService {
 
@@ -9,6 +10,7 @@ export class AuthService {
   authToken;
   user;
   options;
+  public navbarUsernameSubject = new Subject<any>();
 
   constructor(
   	private http: Http
@@ -52,8 +54,22 @@ export class AuthService {
     return this.http.post(this.domain + '/authentication/login', user).map(res=>res.json());
   }
 
+  logout(){
+    this.authToken=null;
+    this.user=null;
+    localStorage.clear();
+  }
+
+  loggedIn(){
+    return tokenNotExpired();
+  }
+
   getProfile(){
     this.createAuthenticationHeaders();
     return this.http.get(this.domain + '/authentication/profile',this.options).map(res=>res.json());
+  }
+
+  addUsernameNavbar(username){
+    this.navbarUsernameSubject.next(username);
   }
 }
