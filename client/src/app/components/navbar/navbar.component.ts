@@ -18,8 +18,8 @@ export class NavbarComponent implements OnInit {
   	private router:Router,
   	private flashMessagesService:FlashMessagesService
   	) {
-    this.usernameNav();
-    this.authService.navbarUsernameSubject.subscribe(data=> this.usernameNavbar=data);
+    
+    
      }  
 
   
@@ -42,7 +42,10 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    if (this.authService.loggedIn()) {
+      this.usernameNav();
+      this.authService.navbarUsernameSubject.subscribe(data=> this.usernameNavbar=data);
+    }
   }
 
 }
