@@ -15,11 +15,13 @@ const appRoutes: Routes = [
   },
   {
     path:'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    canActivate:[NotAuthGuard]
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate:[NotAuthGuard]
   },
   {
     path: 'profile',

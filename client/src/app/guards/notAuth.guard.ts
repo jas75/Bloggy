@@ -13,9 +13,11 @@ export class NotAuthGuard implements CanActivate {
     ){
 
   }
+
+  // This function is used in the app-routing.module file
   canActivate() {
     if (this.authService.loggedIn()){
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
       return false;
     }
     else{

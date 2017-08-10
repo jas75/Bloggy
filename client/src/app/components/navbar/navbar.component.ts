@@ -38,7 +38,6 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
       this.usernameNav();
       this.authService.navbarUsernameSubject.subscribe(data=> this.usernameNavbar=data);
-      console.log(this.usernameNavbar);
   }
 
 }
