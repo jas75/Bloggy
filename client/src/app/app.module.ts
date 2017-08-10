@@ -13,6 +13,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
+import { NewsComponent } from './components/news/news.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NotAuthGuard } from './guards/notAuth.guard';
     HomeComponent,
     RegisterComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    NewsComponent
   ],
   imports: [
     BrowserModule,

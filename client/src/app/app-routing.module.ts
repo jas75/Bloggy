@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { NewsComponent } from './components/news/news.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 
@@ -22,6 +23,11 @@ const appRoutes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate:[NotAuthGuard]
+  },
+  {
+    path: 'news',
+    component: NewsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'profile',

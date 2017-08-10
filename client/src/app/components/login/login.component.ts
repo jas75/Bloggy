@@ -3,7 +3,7 @@ import { FormBuilder,FormGroup,Validators,FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
-
+import { AuthGuard } from '../../guards/auth.guard';
 
 
 @Component({
@@ -19,12 +19,14 @@ export class LoginComponent implements OnInit {
   message;
   messageClass;
   processing=false;
+  previousUrl;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService:AuthService,
     private router: Router,
-    private flashMessagesService:FlashMessagesService
+    private flashMessagesService:FlashMessagesService,
+    private authGuard:AuthGuard
     ) { 
     this.createForm();
   }
@@ -58,8 +60,12 @@ export class LoginComponent implements OnInit {
         this.message=data.message;
         this.authService.storeUserData(data.token,data.user);
         setTimeout(()=>{
-          this.router.navigate(['/profile']);
-        },2000);
+          if (this.previousUrl) { // then we know that the user was redirected
+            this.router.navigate([this.previousUrl]); // redirect to the initial url
+          }else{
+            this.router.navigate(['/profile']);
+          }
+        },1500);
         this.disableForm();
         this.flashMessagesService.show('Welcome to bloggy, '+ this.form.get('username').value +' !',{cssClass: 'alert-info'});
         this.authService.addUsernameNavbar(data.user.username);
@@ -87,6 +93,13 @@ export class LoginComponent implements OnInit {
     this.forgot=false;
   }
   ngOnInit() {
+
+    if(this.authGuard.redirectUrl){  // if this exist, then the AuthGuard was activated
+      this.messageClass="alert alert-danger";
+      this.message="You must be logged in to view that page";
+      this.previousUrl=this.authGuard.redirectUrl;
+      this.authGuard.redirectUrl=undefined;
+    }
   }
 
 }
