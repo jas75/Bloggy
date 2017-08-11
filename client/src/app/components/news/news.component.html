@@ -1,3 +1,39 @@
+<div class="row show-hide-message">
+    <div [ngClass]="messageClass">
+        {{ message }}
+    </div>
+</div>
+
+<button type="button" name="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    <i class="fa fa-plus"></i> New Post
+</button>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button [disabled]="loadingPosts" type="button" name="button" class="btn btn-info" (click)="reloadPosts()">
+   <i class=" fa fa-refresh"></i> Refresh
+</button>
+<br />
+<br />
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="pull-left">
@@ -14,6 +50,7 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dd1" style="float: right;">
+                        <li><a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
                         <li><a href="#"><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
                         <li><a href="#"><i class="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
                         <li><a href="#"><i class="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>
@@ -30,22 +67,47 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
         </div>
         <hr>
-        <div>
+
+        <!-- Like button -->
+        <div class="dropdown">
             <div class="pull-left btn-group-xs">
-                <button class="btn" [class.green]="isDisabled" [disabled]="isDisabled">
+                <button class="btn btn-success" >
                     <i class="fa fa-heart" aria-hidden="true"></i> 21 Like
                 </button>
-                <button class="btn" [class.red]="isDisabled" [disabled]="isDisabled">
+                <div class="dropdown-content">
+                    <a href="">jas75</a>
+                    <a href="">dov75</a>
+                    <a href="">vero75</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dislike button -->
+        <div class="dropdown">
+            <div class="pull-left btn-group-xs">
+                <button class="btn btn-danger"  style="margin-left: 3px;">
                     <i class="fa fa-thumbs-down" aria-hidden="true"></i> 11 Dislike
                 </button>
-                <button class="btn btn-default">
-                    <i class="fa fa-retweet"></i>Share
-                </button>                
-            </div>
+                <div class="dropdown-content">
+                    <a href="">jas75</a>
+                    <a href="">dov75</a>
+                    <a href="">vero75</a>
+                </div>
+            </div>               
             
-            <br>
         </div>
-        <hr>
+
+        <!-- Share button -->
+        <div class="dropdown">
+            <div class="pull-left btn-group-xs">
+                <button class="btn btn-default" style="margin-left: 3px;">
+                    <i class="fa fa-retweet"></i> Share
+                </button>
+            </div>
+        </div>
+        
+         <br />
+        <hr />
         <div class="media">
             <div class="pull-left">
                 <a href="#">
@@ -53,7 +115,12 @@
                 </a>
             </div>
             <div class="media-body">
-                <textarea class="form-control" rows="1" placeholder="Comment"></textarea>
+                <form [formGroup]="form">
+                    <textarea name="comment" class="form-control" rows="1" placeholder="Comment"></textarea>
+                    <br />
+                    <button type="submit" class="btn btn-primary btn-xs">Post Comment</button>
+                </form>
+                
             </div>
         </div>
     </div>
