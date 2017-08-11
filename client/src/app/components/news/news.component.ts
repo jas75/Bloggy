@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewsComponent implements OnInit {
 
+
+	isDisabled:boolean=true;
   constructor() { }
 
   ngOnInit() {
