@@ -8,6 +8,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthService } from './services/auth.service';
+import { PostService } from './services/post.service';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FlashMessagesModule } from 'angular2-flash-messages';
@@ -35,7 +36,8 @@ import { NewsComponent } from './components/news/news.component';
   providers: [
   AuthService,
   AuthGuard,
-  NotAuthGuard
+  NotAuthGuard,
+  PostService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,39 +1,46 @@
-<div class="row show-hide-message">
-    <div [ngClass]="messageClass">
-        {{ message }}
-    </div>
-</div>
+
 
 <button type="button" name="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
     <i class="fa fa-plus"></i> New Post
 </button>
 
 
-<!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Post something !</h4>
+            </div>
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="postForm">
-            <textarea></textarea>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+            <div class="show-hide-message" *ngIf="message">
+                <div [ngClass]="messageClass">
+                    {{ message }}
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <form [formGroup]="form" (submit)="onPostSubmit()">
+                    <div class="form-group">
+                        <div [ngClass]="{'has-succes': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
+                            <textarea class="form-control" formControlName="body" autocomplete="off" rows="8" cols="80" placeholder="Say what you will .."></textarea>
+                            <ul class="help-block">
+                                <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">This field is required</li>
+                                <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.maxlength">Body must not exceed 500 characters</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button [disabled]="!form.valid || processing" type="submit" class="btn btn-primary">Post</button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <button [disabled]="loadingPosts" type="button" name="button" class="btn btn-info" (click)="reloadPosts()">
    <i class=" fa fa-refresh"></i> Refresh
 </button>
+
 <br />
 <br />
 <div class="panel panel-default">
@@ -117,11 +124,11 @@
                 </a>
             </div>
             <div class="media-body">
-                <form [formGroup]="form">
+                <!-- <form [formGroup]="form">
                     <textarea name="comment" class="form-control" rows="1" placeholder="Comment"></textarea>
                     <br />
                     <button type="submit" class="btn btn-primary btn-xs">Post Comment</button>
-                </form>
+                </form> -->
                 
             </div>
         </div>
