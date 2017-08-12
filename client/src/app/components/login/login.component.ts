@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
           if (this.previousUrl) { // then we know that the user was redirected
             this.router.navigate([this.previousUrl]); // redirect to the initial url
           }else{
-            this.router.navigate(['/profile']);
+            this.router.navigate(['/news']);
           }
         },1500);
         this.disableForm();
@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit() {
 
-    if(this.authGuard.redirectUrl){  // if this exist, then the AuthGuard was activated
+    if(this.authGuard.redirectUrl){  // if this exists, then the AuthGuard was activated
       this.messageClass="alert alert-danger";
       this.message="You must be logged in to view that page";
       this.previousUrl=this.authGuard.redirectUrl;

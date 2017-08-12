@@ -43,14 +43,14 @@
 
 <br />
 <br />
-<div class="panel panel-default">
+<div *ngFor="let post of newsPosts" class="panel panel-default">
     <div class="panel-body">
         <div class="pull-left">
             <a href="#">
                 <img class="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style="margin-right:8px; margin-top:-5px;">
             </a>
         </div>
-        <h4><a href="#" style="text-decoration:none;"><strong>John Doe</strong></a> – <small><small><a href="#" style="text-decoration:none; color:grey;"><i><i class="fa fa-clock-o" aria-hidden="true"></i> 42 minutes ago</i></a></small></small></h4>
+        <h4><a href="#" style="text-decoration:none;"><strong>{{ post.createdBy }}</strong></a> – <small><small><a href="#" style="text-decoration:none; color:grey;"><i><i class="fa fa-clock-o" aria-hidden="true"></i>{{ post.createdAt | date: 'MMM dd, yyyy'}}</i></a></small></small></h4>
         <span>
             <div class="navbar-right">
                 <div class="dropdown">
@@ -59,21 +59,20 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dd1" style="float: right;">
-                        <li><a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
+                        <li *ngIf="username===post.createdBy"><a [routerLink]="['/edit-post/',post._id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
                         <li><a href="#"><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
                         <li><a href="#"><i class="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
                         <li><a href="#"><i class="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>
                         <li><a href="#"><i class="fa fa-fw fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
+                        <li *ngIf="username===post.createdBy"><a [routerLink]="['/delete-post/',post._id]"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
                     </ul>
                 </div>
             </div>
         </span>
         <hr>
         <div class="post-content">
-            <p>Simple post content example.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
+            <p>{{post.body}}</p>
         </div>
         <hr>
 
@@ -81,7 +80,7 @@
         <div class="dropdown">
             <div class="pull-left btn-group-xs">
                 <button class="btn btn-success" >
-                    <i class="fa fa-heart" aria-hidden="true"></i> 21 Like
+                    <i class="fa fa-heart" aria-hidden="true"></i> {{post.likes}} Like
                 </button>
                 <div class="dropdown-content">
                     <a href="">jas75</a>
@@ -95,7 +94,7 @@
         <div class="dropdown">
             <div class="pull-left btn-group-xs">
                 <button class="btn btn-danger"  style="margin-left: 3px;">
-                    <i class="fa fa-thumbs-down" aria-hidden="true"></i> 11 Dislike
+                    <i class="fa fa-thumbs-down" aria-hidden="true"></i> {{post.dislikes}} Dislike
                 </button>
                 <div class="dropdown-content">
                     <a href="">jas75</a>

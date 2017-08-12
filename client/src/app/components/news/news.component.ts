@@ -18,6 +18,7 @@ export class NewsComponent implements OnInit {
   form;
   processing=false;
   username;
+  newsPosts;
 
   constructor(
     private formBuilder:FormBuilder,
@@ -48,6 +49,8 @@ export class NewsComponent implements OnInit {
   // When the refresh button is hit
   reloadPosts(){
   	this.loadingPosts=true;
+    console.log(this.authService.navbarUsernameSubject);
+    this.getAllPosts();
   	//Get all blogs
   	setTimeout(()=>{
   		this.loadingPosts=false;
@@ -72,14 +75,21 @@ export class NewsComponent implements OnInit {
       }
       else{
         this.messageClass="alert alert-success";
-        this.message= data.message;
+        this.message= data.message; 
         setTimeout(()=>{
           this.processing=false;
           this.message=false;
           this.form.reset();
           this.enablePostForm();
+          window.location.reload(); // refresh page
         },2000);
       }
+    });
+  }
+
+  getAllPosts(){
+    this.postService.getAllPosts().subscribe(data=>{
+      this.newsPosts=data.posts;
     });
   }
 
@@ -89,6 +99,7 @@ export class NewsComponent implements OnInit {
     this.authService.getProfile().subscribe(data=>{
       this.username=data.user.username;
     });
+    this.getAllPosts();
   }
 
 }
