@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { NewsComponent } from './components/news/news.component';
+import { EditPostComponent } from './components/news/edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -24,13 +26,15 @@ import { NewsComponent } from './components/news/news.component';
     RegisterComponent,
     LoginComponent,
     ProfileComponent,
-    NewsComponent
+    NewsComponent,
+    EditPostComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     FlashMessagesModule
   ],
   providers: [

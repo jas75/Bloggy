@@ -49,7 +49,6 @@ export class NewsComponent implements OnInit {
   // When the refresh button is hit
   reloadPosts(){
   	this.loadingPosts=true;
-    console.log(this.authService.navbarUsernameSubject);
     this.getAllPosts();
   	//Get all blogs
   	setTimeout(()=>{

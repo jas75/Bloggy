@@ -1,0 +1,31 @@
+<div class="row show-hide-message" *ngIf="message">
+	<div [ngClass]="messageClass">
+		{{ message }}
+	</div>
+</div>
+
+<div class="panel panel-default" *ngIf="!loading">
+    <div class="panel-body">
+        <div class="pull-left">
+            <a href="">
+                <img class="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style="margin-right:8px; margin-top:-5px;">
+            </a>
+        </div>
+        <h4><a href="#" style="text-decoration:none;"><strong>{{post.createdBy}}</strong></a> – <small><small><a href="#" style="text-decoration:none; color:grey;"><i><i class="fa fa-clock-o" aria-hidden="true"></i> </i></a></small>{{ post.createdAt | date: 'MMM dd, yyyy'}}</small></h4>
+        
+        <hr>
+        <form (submit)="updatePostSubmit()">
+        	<div class="form-group">
+        		<!-- [(ngModel)] use because we don't need validation since it's the same route -->
+        		<textarea [(ngModel)]="post.body" [disabled]="processing" class="form-control" name="body" rows="8"></textarea>
+        	</div>
+        	
+        	<button [disabled]="processing" type="submit" class="btn btn-primary">Edit</button>
+        	
+        	<button type="button" class="btn btn-warning" (click)="goBack()">Cancel</button>
+            
+            <a [routerLink]="['/delete-post/',post._id]"><button [disabled]="processing" type="button" class="btn btn-danger">Delete</button></a>
+
+        </form>
+    </div>
+</div>

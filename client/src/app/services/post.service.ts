@@ -33,4 +33,14 @@ export class PostService {
     return this.http.get(this.domain + 'posts/allPosts',this.options).map(res=>res.json());
   }
 
+  getSinglePost(id){
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'posts/singlePost/'+ id, this.options).map(res=>res.json());
+  }
+
+  editPost(post){
+    this.createAuthenticationHeaders();
+    return this.http.put(this.domain + 'posts/updatePost', post, this.options).map(res=>res.json());
+  }
+
 }

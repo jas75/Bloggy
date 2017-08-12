@@ -44,3 +44,11 @@
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
+
+@media(min-width:1000px){
+    .btn-settings{
+    position: relative;
+    bottom: 20px;
+    right: 10px;
+}
+}

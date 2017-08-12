@@ -5,6 +5,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { NewsComponent } from './components/news/news.component';
+import { EditPostComponent } from './components/news/edit-post/edit-post.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 
@@ -33,6 +34,11 @@ const appRoutes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate:[AuthGuard]
+  },
+  {
+    path: 'edit-post/:id',
+    component: EditPostComponent,
+    canActivate: [AuthGuard]
   },
   { path: '**', component: HomeComponent } // The "Catch-All" Route
 ];

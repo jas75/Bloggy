@@ -50,16 +50,16 @@
                 <img class="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style="margin-right:8px; margin-top:-5px;">
             </a>
         </div>
-        <h4><a href="#" style="text-decoration:none;"><strong>{{ post.createdBy }}</strong></a> – <small><small><a href="#" style="text-decoration:none; color:grey;"><i><i class="fa fa-clock-o" aria-hidden="true"></i>{{ post.createdAt | date: 'MMM dd, yyyy'}}</i></a></small></small></h4>
+        <h4><a href="#" style="text-decoration:none;"><strong>{{ post.createdBy }}</strong></a> – <small><small><a href="#" style="text-decoration:none; color:grey;"><i><i class="fa fa-clock-o" aria-hidden="true"></i> {{ post.createdAt | date: 'MMM dd, yyyy'}}</i></a></small></small></h4>
         <span>
             <div class="navbar-right">
                 <div class="dropdown">
-                    <button class="btn btn-link btn-xs dropdown-toggle" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <button class="btn btn-link btn-xs dropdown-toggle btn-settings" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-cog" aria-hidden="true"></i>
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dd1" style="float: right;">
-                        <li *ngIf="username===post.createdBy"><a [routerLink]="['/edit-post/',post._id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
+                        <li *ngIf="username===post.createdBy"><a [routerLink]="['/edit-post/',post._id]"><i class="fa fa-fw fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
                         <li><a href="#"><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
                         <li><a href="#"><i class="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
                         <li><a href="#"><i class="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>

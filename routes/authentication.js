@@ -140,6 +140,7 @@ module.exports= (router)=>{
 	/* ============
 	Middleware that intercept the token sent in the headers
 	every route coming after this one are going to execute this middleware
+	Disable it when testing routes.
 	============= */
 	router.use((req,res,next)=>{
 		const token=req.headers['authorization'];
