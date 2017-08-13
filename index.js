@@ -37,8 +37,14 @@ app.use(express.static(__dirname + '/public'));
 app.use('/authentication', authentication);
 app.use('/posts',posts);
 
+
 app.get('/',(req,res)=>{
 	res.sendFile(path.join(__dirname+'/public/index.html'));
+});
+
+// Allows all angular route, for refreshing page
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname+'/public/index.html'));
 });
 
 app.listen (8080,()=>{

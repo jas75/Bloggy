@@ -43,4 +43,9 @@ export class PostService {
     return this.http.put(this.domain + 'posts/updatePost', post, this.options).map(res=>res.json());
   }
 
+  deletePost(id){
+    this.createAuthenticationHeaders();
+    return this.http.delete(this.domain + 'posts/deletePost/' + id, this.options).map(res=>res.json());
+  }
+
 }

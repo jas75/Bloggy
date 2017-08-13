@@ -43,29 +43,29 @@
 
 <br />
 <br />
-<div *ngFor="let post of newsPosts" class="panel panel-default">
+<div *ngFor="let post of newsPosts" class="panel panel-default news-panel">
     <div class="panel-body">
         <div class="pull-left">
             <a href="#">
                 <img class="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style="margin-right:8px; margin-top:-5px;">
             </a>
         </div>
-        <h4><a href="#" style="text-decoration:none;"><strong>{{ post.createdBy }}</strong></a> – <small><small><a href="#" style="text-decoration:none; color:grey;"><i><i class="fa fa-clock-o" aria-hidden="true"></i> {{ post.createdAt | date: 'MMM dd, yyyy'}}</i></a></small></small></h4>
+        <h4><a href="#" style="text-decoration:none;"><strong>{{ post.createdBy }}</strong></a> – <small><small><a href="#" style="text-decoration:none; color:grey;"><i><i class="fa fa-clock-o" aria-hidden="true"></i> {{ post.createdAt | date: 'MMM dd, yyyy'}} at {{ post.createdAt | date:'shortTime'}}</i></a></small></small></h4>
         <span>
             <div class="navbar-right">
-                <div class="dropdown">
-                    <button class="btn btn-link btn-xs dropdown-toggle btn-settings" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <div class="dropdown btn-settings">
+                    <button class="btn btn-link btn-xs dropdown-toggle" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-cog" aria-hidden="true"></i>
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dd1" style="float: right;">
                         <li *ngIf="username===post.createdBy"><a [routerLink]="['/edit-post/',post._id]"><i class="fa fa-fw fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
-                        <li><a href="#"><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
-                        <li><a href="#"><i class="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
-                        <li><a href="#"><i class="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>
-                        <li><a href="#"><i class="fa fa-fw fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li *ngIf="username===post.createdBy"><a [routerLink]="['/delete-post/',post._id]"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
+                        <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
+                        <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
+                        <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>
+                        <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
+                        
+                        <li *ngIf="username===post.createdBy"><a data-toggle="modal" data-target="#deleteModal" (click)="onClickDelete(post._id)"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
                     </ul>
                 </div>
             </div>
@@ -101,8 +101,15 @@
                     <a href="">dov75</a>
                     <a href="">vero75</a>
                 </div>
-            </div>               
-            
+            </div>                
+        </div>
+
+        <div class="dropdown">
+            <div class="pull-left btn-group-xs">
+                <button class="btn btn-primary" style="margin-left: 3px;">
+                    <i class="fa fa-comment"></i> Comment
+                </button>
+            </div>
         </div>
 
         <!-- Share button -->
@@ -114,22 +121,49 @@
             </div>
         </div>
         
-         <br />
-        <hr />
-        <div class="media">
+        
+        <!-- <div class="media">
             <div class="pull-left">
                 <a href="#">
                     <img class="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="35px" height="35px" style="margin-left:3px; margin-right:-5px;">
                 </a>
             </div>
             <div class="media-body">
-                <!-- <form [formGroup]="form">
+                <form [formGroup]="form">
                     <textarea name="comment" class="form-control" rows="1" placeholder="Comment"></textarea>
                     <br />
                     <button type="submit" class="btn btn-primary btn-xs">Post Comment</button>
-                </form> -->
+                </form>
                 
+            </div>
+        </div> -->
+    </div>
+</div>
+
+<!-- Delete post modal-->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</h4>
+            </div>
+
+            <div class="show-hide-message" *ngIf="message">
+                <div [ngClass]="messageClass">
+                    {{ message }}
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <p>
+                    Are you sure you want to delete this post ?
+                </p>
+                
+                <button [disabled]="processing" class="btn btn-danger" (click)="onSureDelete()">Yes</button>
+                <button [disabled]="processing" class="btn btn-primary" (click)="goBack()">No</button>
             </div>
         </div>
     </div>
 </div>
+<!-- Delete post modal-->

@@ -88,7 +88,7 @@ module.exports= (router)=>{
 		else{
 			User.findOne({username:req.params.username},(err,user)=>{
 				if (err) {
-					res.json({success:false,message:"probleme"});
+					res.json({success:false,message:err});
 				}
 				else{
 					if(user){

@@ -18,6 +18,7 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 import { NewsComponent } from './components/news/news.component';
 import { EditPostComponent } from './components/news/edit-post/edit-post.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

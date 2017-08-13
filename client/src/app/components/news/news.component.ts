@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl,FormGroup,FormBuilder,Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { PostService } from '../../services/post.service';
 
@@ -19,11 +20,13 @@ export class NewsComponent implements OnInit {
   processing=false;
   username;
   newsPosts;
+  postIdToDelete;
 
   constructor(
     private formBuilder:FormBuilder,
     private authService:AuthService,
-    private postService:PostService
+    private postService:PostService,
+    private location: Location
     ) {
       this.createPostForm(); 
     }
@@ -84,6 +87,32 @@ export class NewsComponent implements OnInit {
         },2000);
       }
     });
+  }
+
+  onClickDelete(id){ // grab the post id to delete 
+    this.postIdToDelete=id;
+    }
+
+  onSureDelete(){
+    this.processing=true;
+    this.postService.deletePost(this.postIdToDelete).subscribe(data=>{
+      if (!data.success) {
+        this.message=data.message;
+        this.messageClass="alert alert-danger";
+      }
+      else{
+        this.message=data.message;
+        this.messageClass="alert alert-success";
+        setTimeout(()=>{
+          this.processing=false;
+          window.location.reload();
+        },2000);
+      }
+    });
+  }
+
+  goBack(){
+    window.location.reload(); // go to the previous page
   }
 
   getAllPosts(){

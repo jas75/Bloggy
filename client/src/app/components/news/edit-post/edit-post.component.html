@@ -22,10 +22,38 @@
         	
         	<button [disabled]="processing" type="submit" class="btn btn-primary">Edit</button>
         	
-        	<button type="button" class="btn btn-warning" (click)="goBack()">Cancel</button>
+        	<button [disabled]="processing" type="button" class="btn btn-warning" (click)="goBack()">Cancel</button>
             
-            <a [routerLink]="['/delete-post/',post._id]"><button [disabled]="processing" type="button" class="btn btn-danger">Delete</button></a>
+            <a data-toggle="modal" data-target="#deleteModal"><button [disabled]="processing" type="button" class="btn btn-danger">Delete</button></a>
 
         </form>
     </div>
 </div>
+
+<!-- Delete post modal-->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</h4>
+            </div>
+
+            <div class="show-hide-message" *ngIf="message">
+                <div [ngClass]="messageClass">
+                    {{ message }}
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <p>
+                    Are you sure you want to delete this post ?
+                </p>
+                
+                <button [disabled]="processing" class="btn btn-danger" (click)="onSureDelete()">Yes</button>
+                <button [disabled]="processing" class="btn btn-primary">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Delete post modal-->

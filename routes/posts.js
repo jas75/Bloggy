@@ -1,4 +1,4 @@
-const Post = require('../models/post');
+ const Post = require('../models/post');
 const User= require('../models/user');
 const jwt= require('jsonwebtoken');
 const config= require('../config/database');
@@ -129,6 +129,51 @@ module.exports= (router)=>{
 											}
 											else{
 												res.json({success:true,message:"Post updated !"});
+											}
+										});
+									}
+								}
+							}
+						});
+					}
+				}
+			});
+		}
+	});
+
+	router.delete('/deletePost/:id',(req,res)=>{
+		if(!req.params.id){
+			res.json({success:false,message:"No id provided"});
+		}
+		else{
+			Post.findOne({_id: req.params.id},(err,post)=>{
+				if (err) {
+					res.json({success:false,message:"Invalid id"});
+				}
+				else{
+					if (!post) {
+						res.json({success:false,message: 'Post was not found'});
+					}
+					else{
+						User.findOne({_id: req.decoded.userId},(err,user)=>{
+							if (err) {
+								res.json({success:false,message:err});
+							}
+							else{
+								if (!user) {
+									res.json({success:false,message:"Unable to authenticate"});
+								}
+								else{
+									if (user.username!==post.createdBy) {
+										res.json({success:false,message:"You're not authorized to delete this post"});
+									}
+									else{
+										post.remove((err)=>{
+											if(err){
+												res.json({success:false,message: err});
+											}
+											else{
+												res.json({success:true,message:"Post deleted !"});
 											}
 										});
 									}

@@ -45,6 +45,27 @@ export class EditPostComponent implements OnInit {
   	});
   }
 
+
+  onSureDelete(){
+    this.processing=true;
+    this.postService.deletePost(this.currentUrl.id).subscribe(data=>{
+      if (!data.success) {
+        this.message=data.message;
+        this.messageClass="alert alert-danger";
+      }
+      else{
+        this.message=data.message;
+        this.messageClass="alert alert-success";
+        setTimeout(()=>{
+          this.processing=false;
+          this.router.navigate(['/news']);
+          window.location.reload();
+        },2000);
+      }
+    });
+  }
+
+
   goBack(){
   	this.location.back(); // go to the previous page
   }
