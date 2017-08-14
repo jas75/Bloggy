@@ -185,5 +185,23 @@ module.exports= (router)=>{
 			});
 		}
 	});
+
+	router.put('/likePost',(req,res)=>{
+		if(!req.body.id){
+			res.json({success:false,message:"No id was provided"});
+		}
+		else{
+			Post.findOne({_id:req.body.id},(err,post)=>{
+				if(err){
+					res.json({success:false,message:"Invalid blog id"});
+				}
+				else{
+					if (!post) {
+						res.json({success:false,message:"That post was not found"});
+					}
+				}
+			});
+		}
+	});
 	return router;
 };

@@ -60,7 +60,7 @@ export class EditPostComponent implements OnInit {
           this.processing=false;
           this.router.navigate(['/news']);
           window.location.reload();
-        },2000);
+        },1000);
       }
     });
   }

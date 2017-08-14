@@ -12,7 +12,6 @@ import { PostService } from '../../services/post.service';
 export class NewsComponent implements OnInit {
 
 
-	isDisabled:boolean=true;
 	message;
 	messageClass;
 	loadingPosts=false;
@@ -84,7 +83,7 @@ export class NewsComponent implements OnInit {
           this.form.reset();
           this.enablePostForm();
           window.location.reload(); // refresh page
-        },2000);
+        },1500);
       }
     });
   }
@@ -112,7 +111,7 @@ export class NewsComponent implements OnInit {
   }
 
   goBack(){
-    window.location.reload(); // go to the previous page
+    this.location.back(); // refresh the page 
   }
 
   getAllPosts(){

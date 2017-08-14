@@ -79,7 +79,7 @@
         <!-- Like button -->
         <div class="dropdown">
             <div class="pull-left btn-group-xs">
-                <button class="btn btn-success" >
+                <button class="btn btn-success btn-news" >
                     <i class="fa fa-heart" aria-hidden="true"></i> {{post.likes}} Like
                 </button>
                 <div class="dropdown-content">
@@ -93,7 +93,7 @@
         <!-- Dislike button -->
         <div class="dropdown">
             <div class="pull-left btn-group-xs">
-                <button class="btn btn-danger"  style="margin-left: 3px;">
+                <button class="btn btn-danger btn-news"  style="margin-left: 3px;">
                     <i class="fa fa-thumbs-down" aria-hidden="true"></i> {{post.dislikes}} Dislike
                 </button>
                 <div class="dropdown-content">
@@ -106,7 +106,7 @@
 
         <div class="dropdown">
             <div class="pull-left btn-group-xs">
-                <button class="btn btn-primary" style="margin-left: 3px;">
+                <button class="btn btn-primary btn-news" style="margin-left: 3px;">
                     <i class="fa fa-comment"></i> Comment
                 </button>
             </div>
@@ -115,7 +115,7 @@
         <!-- Share button -->
         <div class="dropdown">
             <div class="pull-left btn-group-xs">
-                <button class="btn btn-default" style="margin-left: 3px;">
+                <button class="btn btn-default btn-news" style="margin-left: 3px;">
                     <i class="fa fa-retweet"></i> Share
                 </button>
             </div>
@@ -160,8 +160,8 @@
                     Are you sure you want to delete this post ?
                 </p>
                 
-                <button [disabled]="processing" class="btn btn-danger" (click)="onSureDelete()">Yes</button>
-                <button [disabled]="processing" class="btn btn-primary" (click)="goBack()">No</button>
+                <button [disabled]="processing" class="btn btn-primary" (click)="onSureDelete()">Yes</button>
+                <button [disabled]="processing" type="button" class="btn btn-danger" data-dismiss="modal">No</button>
             </div>
         </div>
     </div>
