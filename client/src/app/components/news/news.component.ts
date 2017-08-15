@@ -129,4 +129,16 @@ export class NewsComponent implements OnInit {
     this.getAllPosts();
   }
 
+  likePost(id){
+    this.postService.likedPost(id).subscribe(data=>{
+    this.getAllPosts();
+    });
+  }
+
+  dislikePost(id){
+    this.postService.dislikedPost(id).subscribe(data=>{
+      this.getAllPosts();
+    });
+  }
+
 }

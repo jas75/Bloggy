@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { NewsComponent } from './components/news/news.component';
 import { EditPostComponent } from './components/news/edit-post/edit-post.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -38,6 +39,11 @@ const appRoutes: Routes = [
   {
     path: 'edit-post/:id',
     component: EditPostComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path:'user/:username',
+    component: PublicProfileComponent,
     canActivate: [AuthGuard]
   },
   { path: '**', component: HomeComponent } // The "Catch-All" Route

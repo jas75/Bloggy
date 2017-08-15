@@ -48,4 +48,16 @@ export class PostService {
     return this.http.delete(this.domain + 'posts/deletePost/' + id, this.options).map(res=>res.json());
   }
 
+  likedPost(id){
+    this.createAuthenticationHeaders();
+    const blogData={id:id};
+    return this.http.put(this.domain + 'posts/likePost',blogData,this.options).map(res=>res.json());
+  }
+
+  dislikedPost(id){
+    this.createAuthenticationHeaders();
+    const blogData={id:id};
+    return this.http.put(this.domain + 'posts/dislikePost',blogData,this.options).map(res=>res.json());
+  }
+
 }

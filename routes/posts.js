@@ -191,7 +191,7 @@ module.exports= (router)=>{
 			res.json({success:false,message:"No id was provided"});
 		}
 		else{
-			Post.findOne({_id:req.body.id},(err,post)=>{
+			Post.findOne({_id:req.body.id},(err,post)=>{ //search for the  post to like
 				if(err){
 					res.json({success:false,message:"Invalid blog id"});
 				}
@@ -199,9 +199,124 @@ module.exports= (router)=>{
 					if (!post) {
 						res.json({success:false,message:"That post was not found"});
 					}
+					else{
+						User.findOne({_id:req.decoded.userId},(err,user)=>{ // search for the current user so we implement him to to the first query Post !
+							if(err){
+								res.json({success:false,message:"Something went wrong"});
+							}
+							else{
+								if (!user) {
+									res.json({sucess:false,message:"Could not authenticate user"});
+								}
+								/* =====
+								How to work with arrays in Mongoose
+								=======*/
+								else{
+									if(post.likedBy.includes(user.username)){ // if that array contains username of the current user  then :
+										res.json({success:false,message:"You already liked this post"}); // In the front end they re not going to see this just for precaution
+									}
+									else{
+										if(post.dislikedBy.includes(user.username)){ // if that array contains username of the current user  then :
+											post.dislikes--;
+											const arrayIndex = post.dislikedBy.indexOf(user.username); // gets the index the current user in the dislikedBy array
+											post.dislikedBy.splice(arrayIndex, 1); // Remove the user from the array, just 1 element
+											post.likes++;
+											post.likedBy.push(user.username); // Insert current user in liekdBy array
+											post.save((err)=>{
+												if (err) {
+													res.json({success:false,message:"Something went wrong"});
+												}
+												else{
+													res.json({success:true,message:"Post liked"});
+												}
+											});
+										}else{ // if the user is not in one of those arrays so current user has never touch a like button
+											post.likes++;
+											post.likedBy.push(user.username); // Insert current user in liekdBy array
+											post.save((err)=>{
+												if (err) {
+													res.json({success:false,message:"Something went wrong"});
+												}
+												else{
+													res.json({success:true,message:"Post liked"});
+												}
+											});
+										}
+									}
+								}
+							}
+						});
+					}
 				}
 			});
 		}
 	});
+
+	router.put('/dislikePost',(req,res)=>{
+		if(!req.body.id){
+			res.json({success:false,message:"No id was provided"});
+		}
+		else{
+			Post.findOne({_id:req.body.id},(err,post)=>{ //search for the current post to dislike
+				if(err){
+					res.json({success:false,message:"Invalid blog id"});
+				}
+				else{
+					if (!post) {
+						res.json({success:false,message:"That post was not found"});
+					}
+					else{
+						User.findOne({_id:req.decoded.userId},(err,user)=>{ // search for the current user so we implement him to to the first query Post !
+							if(err){
+								res.json({success:false,message:"Something went wrong"});
+							}
+							else{
+								if (!user) {
+									res.json({sucess:false,message:"Could not authenticate user"});
+								}
+								/* =====
+								How to work with arrays in Mongoose
+								=======*/
+								else{
+									if(post.dislikedBy.includes(user.username)){ // if that array contains username of the current user  then :
+										res.json({success:false,message:"You already disliked this post"}); // In the front end they re not going to see this just for precaution
+									}
+									else{
+										if(post.likedBy.includes(user.username)){ // if that array contains username of the current user  then :
+											post.likes--;
+											const arrayIndex = post.likedBy.indexOf(user.username); // gets the index the current user in the dislikedBy array
+											post.likedBy.splice(arrayIndex, 1); // Remove the user from the array, just 1 element
+											post.dislikes++;
+											post.dislikedBy.push(user.username); // Insert current user in liekdBy array
+											post.save((err)=>{
+												if (err) {
+													res.json({success:false,message:"Something went wrong"});
+												}
+												else{
+													res.json({success:true,message:"Post liked"});
+												}
+											});
+										}else{ // if the user is not in one of those arrays so current user has never touch a like button
+											post.dislikes++;
+											post.dislikedBy.push(user.username); // Insert current user in liekdBy array
+											post.save((err)=>{
+												if (err) {
+													res.json({success:false,message:"Something went wrong"});
+												}
+												else{
+													res.json({success:true,message:"Post disliked"});
+												}
+											});
+										}
+									}
+								}
+							}
+						});
+					}
+				}
+			});
+		}
+	});
+
 	return router;
 };

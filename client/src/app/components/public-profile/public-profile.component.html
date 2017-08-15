@@ -1,0 +1,15 @@
+<div class="row show-hide-message" *ngIf="message">
+	<div [ngClass]="messageClass">
+		{{message}}
+	</div>
+	
+</div>
+
+<div *ngIf="foundProfile">
+	<p>
+ 	Username: {{ user.username}}
+</p>
+<p>
+	Email: {{ user.email}}
+</p>
+</div>

@@ -79,13 +79,11 @@
         <!-- Like button -->
         <div class="dropdown">
             <div class="pull-left btn-group-xs">
-                <button class="btn btn-success btn-news" >
+                <button [disabled]="post.likedBy.includes(username)" class="btn btn-success btn-news" (click)="likePost(post._id)" >
                     <i class="fa fa-heart" aria-hidden="true"></i> {{post.likes}} Like
                 </button>
                 <div class="dropdown-content">
-                    <a href="">jas75</a>
-                    <a href="">dov75</a>
-                    <a href="">vero75</a>
+                    <a [routerLink]="['/user/',liker]" *ngFor="let liker of post.likedBy">{{liker}}</a>
                 </div>
             </div>
         </div>
@@ -93,13 +91,11 @@
         <!-- Dislike button -->
         <div class="dropdown">
             <div class="pull-left btn-group-xs">
-                <button class="btn btn-danger btn-news"  style="margin-left: 3px;">
+                <button [disabled]="post.dislikedBy.includes(username)" class="btn btn-danger btn-news" (click)="dislikePost(post._id)" style="margin-left: 3px;">
                     <i class="fa fa-thumbs-down" aria-hidden="true"></i> {{post.dislikes}} Dislike
                 </button>
                 <div class="dropdown-content">
-                    <a href="">jas75</a>
-                    <a href="">dov75</a>
-                    <a href="">vero75</a>
+                    <a [routerLink]="['/user/',disliker]" *ngFor="let disliker of post.dislikedBy">{{disliker}}</a>
                 </div>
             </div>                
         </div>

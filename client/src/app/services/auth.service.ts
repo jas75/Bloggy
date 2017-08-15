@@ -74,4 +74,9 @@ export class AuthService {
   addUsernameNavbar(username){
     this.navbarUsernameSubject.next(username);
   }
+
+  getPublicProfile(username){
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'authentication/publicProfile/' + username, this.options).map(res=>res.json());
+  }
 }

@@ -17,6 +17,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { NewsComponent } from './components/news/news.component';
 import { EditPostComponent } from './components/news/edit-post/edit-post.component';
+import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { EditPostComponent } from './components/news/edit-post/edit-post.compone
     LoginComponent,
     ProfileComponent,
     NewsComponent,
-    EditPostComponent
+    EditPostComponent,
+    PublicProfileComponent
   ],
   imports: [
     BrowserModule,
