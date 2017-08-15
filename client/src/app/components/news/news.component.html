@@ -100,9 +100,17 @@
             </div>                
         </div>
 
-        <div class="dropdown">
+        <div  *ngIf="newComment.includes(post._id)" class="dropdown">
             <div class="pull-left btn-group-xs">
-                <button class="btn btn-primary btn-news" style="margin-left: 3px;">
+                <button (click)="cancelSubmission(post._id)" class="btn btn-warning btn-news" style="margin-left: 3px;">
+                    <i class="fa fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="!newComment.includes(post._id)" class="dropdown">
+            <div class="pull-left btn-group-xs">
+                <button (click)="draftComment(post._id)" class="btn btn-primary btn-news" style="margin-left: 3px;">
                     <i class="fa fa-comment"></i> Comment
                 </button>
             </div>
@@ -117,23 +125,52 @@
             </div>
         </div>
         
-        
-        <!-- <div class="media">
+        <div class="media" *ngIf="newComment.includes(post._id)">
             <div class="pull-left">
                 <a href="#">
                     <img class="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="35px" height="35px" style="margin-left:3px; margin-right:-5px;">
                 </a>
             </div>
             <div class="media-body">
-                <form [formGroup]="form">
-                    <textarea name="comment" class="form-control" rows="1" placeholder="Comment"></textarea>
-                    <br />
-                    <button type="submit" class="btn btn-primary btn-xs">Post Comment</button>
+                <form [formGroup]="commentForm" (submit)="postComment(post._id)">
+                    <textarea name="comment" class="form-control" rows="1" placeholder="Comment" formControlName="comment"></textarea>
+                    <div [ngClass]="">
+                        <ul class="help-block">
+                            <li *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">This field is required</li>
+                            <li *ngIf="commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty">Comment must be at least 1 character</li>
+                            <li *ngIf="commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty">Comment must not exceed 300 characters</li>
+                        </ul>
+                    </div>
+                    
+                    <button [disabled]="!commentForm.valid || processing" type="submit" class="btn btn-primary btn-xs">Post Comment</button>
                 </form>
                 
+                <br />
+                
             </div>
-        </div> -->
+        </div>
+
+        <!-- Show comments -->
+                <div *ngIf="!enabledComments.includes(post._id) && post.comments.length > 0">
+                    <button (click)="expand(post._id)" class="btn btn-xs btn-link">Show comments <i class="fa fa-comment"></i></button>
+                </div>
+
+                <!-- Hide comments -->
+
+                <div *ngIf="enabledComments.includes(post._id)">
+                    <button (click)="collapse(post._id)" class="btn btn-xs btn-link">Hide comments <i class="fa fa-comment"></i></button>
+                </div>
+
+                <div *ngIf="enabledComments.includes(post._id)">
+                    
+                        <div *ngFor="let comment of post.comments" class="list-group-item">
+                            <strong>{{comment.commentator}} :</strong> {{comment.comment}}
+
+                        </div>
+                    
+                </div>
     </div>
+
 </div>
 
 <!-- Delete post modal-->

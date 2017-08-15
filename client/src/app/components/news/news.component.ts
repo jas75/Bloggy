@@ -16,11 +16,14 @@ export class NewsComponent implements OnInit {
 	messageClass;
 	loadingPosts=false;
   form;
+  commentForm;
   processing=false;
   username;
   newsPosts;
   postIdToDelete;
-
+  newComment=[];//because there might be lot of comments, we need an array
+  enabledComments=[];
+  showCommentForm=false;
   constructor(
     private formBuilder:FormBuilder,
     private authService:AuthService,
@@ -28,6 +31,7 @@ export class NewsComponent implements OnInit {
     private location: Location
     ) {
       this.createPostForm(); 
+      this.createCommentForm();
     }
 
   createPostForm(){
@@ -46,6 +50,13 @@ export class NewsComponent implements OnInit {
 
   disablePostForm(){
     this.form.get('body').disable();
+  }
+
+  enableCommentForm(){
+    this.commentForm.get('comment').enable();
+  }
+  disableCommentForm(){
+    this.commentForm.get('comment').disable();
   }
 
   // When the refresh button is hit
@@ -139,6 +150,61 @@ export class NewsComponent implements OnInit {
     this.postService.dislikedPost(id).subscribe(data=>{
       this.getAllPosts();
     });
+  }
+
+  /*======
+  Comments
+  =======*/
+
+  postComment(id){
+    this.disableCommentForm();
+    this.processing=true;
+    const comment= this.commentForm.get('comment').value;
+    this.postService.postComment(id,comment).subscribe(data=>{
+      this.getAllPosts();
+      const index= this.newComment.indexOf(id);
+      this.newComment.splice(index, 1);
+      this.enableCommentForm();
+      this.commentForm.reset();
+      this.processing=false;
+      if(this.enabledComments.indexOf(id) < 0) this.expand(id);
+    });
+  }
+
+  draftComment(id){
+    this.newComment=[]; // to know the difference between posts
+    this.newComment.push(id); // grabs the post id that's goin to be commented
+    this.showCommentForm=true;
+    this.commentForm.reset();
+  }
+  cancelSubmission(id){
+    const index = this.newComment.indexOf(id);
+    this.newComment.splice(index);
+    this.commentForm.reset();
+    this.enableCommentForm();
+    this.showCommentForm=false;
+  }
+
+
+  createCommentForm(){ // Comment form
+    this.commentForm=this.formBuilder.group({
+      comment: ['',Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(300)
+        ])]
+    });
+  }
+
+  // show the comments
+  expand(id){
+    this.enabledComments.push(id);
+  }
+
+  //hide the comments
+  collapse(id){
+    const index=this.enabledComments.indexOf(id);
+    this.enabledComments.splice(index, 1);
   }
 
 }

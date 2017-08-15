@@ -50,14 +50,19 @@ export class PostService {
 
   likedPost(id){
     this.createAuthenticationHeaders();
-    const blogData={id:id};
-    return this.http.put(this.domain + 'posts/likePost',blogData,this.options).map(res=>res.json());
+    const postData={id:id};
+    return this.http.put(this.domain + 'posts/likePost',postData,this.options).map(res=>res.json());
   }
 
   dislikedPost(id){
     this.createAuthenticationHeaders();
-    const blogData={id:id};
-    return this.http.put(this.domain + 'posts/dislikePost',blogData,this.options).map(res=>res.json());
+    const postData={id:id};
+    return this.http.put(this.domain + 'posts/dislikePost',postData,this.options).map(res=>res.json());
+  }
+  postComment(id,comment){
+    this.createAuthenticationHeaders();
+    const postData = {id:id,comment:comment};
+    return this.http.post(this.domain +'posts/comment', postData, this.options).map(res=>res.json());
   }
 
 }

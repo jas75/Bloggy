@@ -318,5 +318,54 @@ module.exports= (router)=>{
 		}
 	});
 
+	router.post('/comment',(req,res)=>{
+		if(!req.body.comment){
+			res.json({success:false,message:"No comment provided"});
+		}
+		else{
+			if (!req.body.id) {
+				res.json({success:false,message:'No id was provided'});
+			}
+			else{
+				Post.findOne({_id:req.body.id},(err,post)=>{
+					if(err){
+						res.json({success:false,message:"Invalid post id"});
+					}
+					else{
+						if(!post){
+							res.json({success:false,message:"Post not found"});
+						}
+						else{
+							User.findOne({_id:req.decoded.userId},(err,user)=>{
+								if(err){
+									res.json({success:false,message:"Something went wrong"});
+								}
+								else{
+									if(!user){
+										res.json({success:false,message:"User not found"});
+									}
+									else{
+										post.comments.push({
+											comment: req.body.comment,
+											commentator:user.username
+										});
+										post.save((err)=>{
+											if(err){
+												res.json({success:false,message:err});
+											}
+											else{
+												res.json({success:true,message:'Comment saved'});
+											}
+										});
+									}
+								}
+							});
+						}
+					}
+				});
+			}
+		}
+	});
+
 	return router;
 };
