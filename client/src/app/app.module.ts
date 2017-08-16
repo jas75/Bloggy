@@ -18,6 +18,7 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 import { NewsComponent } from './components/news/news.component';
 import { EditPostComponent } from './components/news/edit-post/edit-post.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
+import { SamplesComponent } from './components/samples/samples.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
     ProfileComponent,
     NewsComponent,
     EditPostComponent,
-    PublicProfileComponent
+    PublicProfileComponent,
+    SamplesComponent
   ],
   imports: [
     BrowserModule,

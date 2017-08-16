@@ -1,3 +1,7 @@
 .mainbody{
 	font-size: 0.8em;
 }
+.profile-post{
+	border:unset;
+	box-shadow: unset;
+}
