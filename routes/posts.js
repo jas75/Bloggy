@@ -367,5 +367,37 @@ module.exports= (router)=>{
 		}
 	});
 
+	/* ========
+	Profile page
+	========= */
+
+	router.get('/getCurrentUserPosts',(req,res)=>{
+		User.findOne({_id:req.decoded.userId},(err,user)=>{
+			if(err){
+				res.json({success:false,message:err});
+			}
+			else{
+				if(!user){
+					res.json({success:false,message:"User not found"});
+				}
+				else{
+					Post.find({createdBy:user.username},(err,posts)=>{
+						if (err) {
+							res.json({success:false,message:err});
+						}
+						else{
+							if(!posts){
+								res.json({success:false,message:"No posts found"});
+							}
+							else{
+								res.json({success:true, posts:posts});
+							}
+						}
+					}).sort({'_id':-1});
+				}
+			}
+		});
+	});
+
 	return router;
 };

@@ -65,4 +65,9 @@ export class PostService {
     return this.http.post(this.domain +'posts/comment', postData, this.options).map(res=>res.json());
   }
 
+  getCurrentUserPosts(){
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'posts/getCurrentUserPosts', this.options).map(res=>res.json());
+  }
+
 }

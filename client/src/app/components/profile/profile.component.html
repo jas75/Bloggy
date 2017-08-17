@@ -29,7 +29,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <span>
-                        <h1 class="panel-title pull-left" style="font-size:30px;"> username <small>  email </small> <i class="fa fa-check text-success" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="John Doe is sharing with you"></i></h1>
+                        <h1 class="panel-title pull-left" style="font-size:30px;"> {{username}} <small>  {{email}} </small> <i class="fa fa-check text-success" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="John Doe is sharing with you"></i></h1>
                         <div class="dropdown pull-right">
                             
                         </div>
@@ -37,11 +37,23 @@
                     <br>
                     <br>
                     <br>
-                    <form>
+                    <form [formGroup]="form" (submit)="onPostSubmit()">
+
                         <div class="form-group">
-                            <textarea class="form-control profile-post" placeholder="What's up ?"></textarea>
+                            <textarea class="form-control profile-post" placeholder="What's up ?" formControlName="body"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary pull-right">Post</button>
+                        <div [ngClass]="{'has-success':form.controls.body.valid,'has-error':form.controls.body.dirty && form.controls.body.errors}">
+                            <ul class="help-block">
+                                <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">This field is required</li>
+                                <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.maxlength">Post can't exceed 500 characters</li>
+                            </ul> 
+                        </div>
+                        <div class="show-hide-message" *ngIf="message">
+                            <div [ngClass]="messageClass">
+                                {{ message }}
+                            </div>
+                        </div>
+                        <button [disabled]="!form.valid" type="submit" class="btn btn-primary pull-right">Post</button>
                     </form>
                     
                      <span class="pull-left">
@@ -54,14 +66,14 @@
             </div>
             <hr>
             <!--  Post sample-->
-            <div class="panel panel-default news-panel">
+            <div *ngFor="let post of profilePosts" class="panel panel-default news-panel">
                 <div class="panel-body">
                     <div class="pull-left">
                         <a href="#">
                             <img class="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style="margin-right:8px; margin-top:-5px;">
                         </a>
                     </div>
-                    <h4><a href="#" style="text-decoration:none;"><strong> post.createdBy </strong></a> – <small><small><a href="#" style="text-decoration:none; color:grey;"><i><i class="fa fa-clock-o" aria-hidden="true"></i>  post.createdAt | date: 'MMM dd, yyyy' at post.createdAt | date:'shortTime'</i></a></small></small></h4>
+                    <h4><a href="#" style="text-decoration:none;"><strong> {{post.createdBy}} </strong></a> – <small><small><a href="#" style="text-decoration:none; color:grey;"><i><i class="fa fa-clock-o" aria-hidden="true"></i>  {{post.createdAt | date: 'MMM dd, yyyy'}} at {{post.createdAt | date:'shortTime'}}</i></a></small></small></h4>
                     <span>
                         <div class="navbar-right">
                             <div class="dropdown btn-settings">
@@ -83,7 +95,7 @@
                     </span>
                     <hr>
                     <div class="post-content">
-                        <p>post.body</p>
+                        <p>{{post.body}}</p>
                     </div>
                     <hr>
 
@@ -91,10 +103,10 @@
                     <div class="dropdown">
                         <div class="pull-left btn-group-xs">
                             <button class="btn btn-success btn-news">
-                                <i class="fa fa-heart" aria-hidden="true"></i> post.likes Like
+                                <i class="fa fa-heart" aria-hidden="true"></i> {{post.likes}} Like
                             </button>
                             <div class="dropdown-content">
-                                <a>liker</a>
+                                <a>{{liker}}</a>
                             </div>
                         </div>
                     </div>
@@ -103,10 +115,10 @@
                     <div class="dropdown">
                         <div class="pull-left btn-group-xs">
                             <button  class="btn btn-danger btn-news" style="margin-left: 3px;">
-                                <i class="fa fa-thumbs-down" aria-hidden="true"></i> post.dislikes Dislike
+                                <i class="fa fa-thumbs-down" aria-hidden="true"></i> {{post.dislikes}} Dislike
                             </button>
                             <div class="dropdown-content">
-                                <a>disliker</a>
+                                <a>{{disliker}}</a>
                             </div>
                         </div>                
                     </div>
@@ -165,7 +177,7 @@
                             </a>
                         </div>
                         <div class="media-body">
-                            <form>
+                            <!-- <form>
                                 <textarea name="comment" class="form-control" rows="1" placeholder="Comment" formControlName="comment"></textarea>
                                 <div>
                                     <ul class="help-block">
@@ -176,7 +188,7 @@
                                 </div>
                                 
                                 <button type="submit" class="btn btn-primary btn-xs">Post Comment</button>
-                            </form>
+                            </form> -->
                             
                             <br />
                             

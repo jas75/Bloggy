@@ -24,6 +24,7 @@ export class NewsComponent implements OnInit {
   newComment=[];//because there might be lot of comments, we need an array
   enabledComments=[];
   showCommentForm=false;
+
   constructor(
     private formBuilder:FormBuilder,
     private authService:AuthService,
@@ -36,7 +37,7 @@ export class NewsComponent implements OnInit {
 
   createPostForm(){
     this.form=this.formBuilder.group({
-      body: ['', Validators.compose([
+      body:['', Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(500)
