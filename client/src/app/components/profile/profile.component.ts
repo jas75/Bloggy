@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   message;
   profilePosts;
   newComment=[];
+  enabledComments=[];
 
   constructor(
   	private authService:AuthService,
@@ -103,6 +104,18 @@ export class ProfileComponent implements OnInit {
     const index=this.newComment.indexOf(id); // search for the id of the post
     this.newComment.splice(index);// remove the id from the array
     this.commentForm.reset();
+  }
+
+//hide comments
+  collapse(id){
+    this.enabledComments=[];
+    const index=this.enabledComments.indexOf(id);
+    this.enabledComments.splice(index,1);
+  }
+
+// show comments
+  expand(id){
+    this.enabledComments.push(id);
   }
 
   ngOnInit() {

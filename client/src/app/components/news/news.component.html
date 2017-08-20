@@ -129,7 +129,7 @@
 
         <!-- Show comments -->
                 <div *ngIf="!enabledComments.includes(post._id) && post.comments.length > 0" class="pull-right">
-                    <button (click)="expand(post._id)" class="btn btn-xs btn-link">Show comments <i class="fa fa-comment"></i></button>
+                    <button (click)="expand(post._id)" class="btn btn-xs btn-link">Show {{post.comments.length}} comments <i class="fa fa-comment"></i></button>
                 </div>
 
                 <!-- Hide comments -->

@@ -82,13 +82,13 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dd1" style="float: right;">
-                                    <li><a><i class="fa fa-fw fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
-                                    <li><a href="#"><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
-                                    <li><a href="#"><i class="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
-                                    <li><a href="#"><i class="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>
-                                    <li><a href="#"><i class="fa fa-fw fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
+                                    <li *ngIf="username===post.createdBy"><a [routerLink]="['/edit-post/',post._id]"><i class="fa fa-fw fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
+                                    <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
+                                    <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
+                                    <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>
+                                    <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
                                     
-                                    <li><a data-toggle="modal" data-target="#deleteModal"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
+                                    <li *ngIf="username===post.createdBy"><a data-toggle="modal" data-target="#deleteModal"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -151,17 +151,17 @@
 
 
                     <!-- Show comments -->
-                            <div>
-                                <button class="btn btn-xs btn-link">Show comments <i class="fa fa-comment"></i></button>
+                            <div *ngIf="!enabledComments.includes(post._id) && post.comments.length > 0" class="pull-right">
+                                <button class="btn btn-xs btn-link" (click)="expand(post._id)">Show  {{post.comments.length}} comments <i class="fa fa-comment"></i></button>
                             </div>
 
                             <!-- Hide comments -->
 
-                            <div  class="pull-right">
-                                <button class="btn btn-xs btn-link">Hide comments <i class="fa fa-comment"></i></button>
+                            <div  *ngIf="enabledComments.includes(post._id)" class="pull-right">
+                                <button class="btn btn-xs btn-link" (click)="collapse(post._id)">Hide comments <i class="fa fa-comment"></i></button>
                             </div>
 
-                            <div>
+                            <div *ngIf="enabledComments.includes(post._id)">
                                 
                                     <div *ngFor="let comment of post.comments" class="list-group-item">
                                         <strong>{{comment.commentator}} :</strong> {{comment.comment}}
