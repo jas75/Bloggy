@@ -13,9 +13,11 @@ export class ProfileComponent implements OnInit {
 	username;
   email;
   form;
+  commentForm;
   messageClass;
   message;
   profilePosts;
+  newComment=[];
 
   constructor(
   	private authService:AuthService,
@@ -23,6 +25,7 @@ export class ProfileComponent implements OnInit {
     private formBuilder:FormBuilder
   	) { 
     this.createPostForm();
+    this.createCommentForm();
   }
 
   createPostForm(){
@@ -35,10 +38,20 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  createCommentForm(){
+    this.commentForm=this.formBuilder.group({
+      comment:['', Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(300)
+        ])]
+    });
+  }
+
   onPostSubmit(){
     const post = {
       body: this.form.get('body').value,
-      createdBy: this.username
+      createdBy: this.username // grab every data
     }
     this.postService.newPost(post).subscribe(data=>{
       if(!data.success){
@@ -52,6 +65,7 @@ export class ProfileComponent implements OnInit {
           this.getCurrentUserPosts();
           this.message=null;
           this.messageClass=null;
+          this.form.reset();
         },1500);
       }
     });
@@ -61,6 +75,34 @@ export class ProfileComponent implements OnInit {
     this.postService.getCurrentUserPosts().subscribe(data=>{
       this.profilePosts=data.posts;
     });
+  }
+
+  // postComment(id){
+
+  // }
+
+  likePost(id){
+    this.postService.likedPost(id).subscribe(data=>{
+      this.getCurrentUserPosts();
+    });
+  }
+
+  dislikePost(id){
+    this.postService.dislikedPost(id).subscribe(data=>{
+      this.getCurrentUserPosts();
+    });
+  }
+
+  draftComment(id){
+    this.newComment=[]; // reset the array so there's no confusion
+    this.newComment.push(id); // put the id of the current post so we know that it is activated
+    this.commentForm.reset();// reset the form
+  }
+
+  cancelSubmission(id){
+    const index=this.newComment.indexOf(id); // search for the id of the post
+    this.newComment.splice(index);// remove the id from the array
+    this.commentForm.reset();
   }
 
   ngOnInit() {
