@@ -69,11 +69,11 @@
             <div *ngFor="let post of profilePosts" class="panel panel-default news-panel">
                 <div class="panel-body">
                     <div class="pull-left">
-                        <a href="#">
+                        <a (click)="redirectTo(post.createdBy)" style="cursor:pointer;">
                             <img class="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style="margin-right:8px; margin-top:-5px;">
                         </a>
                     </div>
-                    <h4><a [routerLink]="['/user/',post.createdBy]" style="text-decoration:none;"><strong> {{post.createdBy}} </strong></a> – <small><small><a href="#" style="text-decoration:none; color:grey;"><i><i class="fa fa-clock-o" aria-hidden="true"></i>  {{post.createdAt | date: 'MMM dd, yyyy'}} at {{post.createdAt | date:'shortTime'}}</i></a></small></small></h4>
+                    <h4><a (click)="redirectTo(post.createdBy)" style="text-decoration:none;cursor: pointer;"><strong> {{post.createdBy}} </strong></a> – <small><small><i><i class="fa fa-clock-o" aria-hidden="true"></i>  {{post.createdAt | date: 'MMM dd, yyyy'}} at {{post.createdAt | date:'shortTime'}}</i></small></small></h4>
                     <span>
                         <div class="navbar-right">
                             <div class="dropdown btn-settings">
@@ -187,7 +187,7 @@
                                     </ul>
                                 </div>
                                 
-                                <button type="submit" class="btn btn-primary btn-xs">Post Comment</button>
+                                <button [disabled]="!commentForm.valid" type="submit" class="btn btn-primary btn-xs">Post Comment</button>
                             </form>
                             
                             <br />

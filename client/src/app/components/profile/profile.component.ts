@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormControl,FormGroup,FormBuilder,Validators } from '@angular/forms';
 import { PostService } from '../../services/post.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +24,8 @@ export class ProfileComponent implements OnInit {
   constructor(
   	private authService:AuthService,
     private postService:PostService,
-    private formBuilder:FormBuilder
+    private formBuilder:FormBuilder,
+    private router: Router
   	) { 
     this.createPostForm();
     this.createCommentForm();
@@ -59,6 +61,16 @@ Forms setup
   disableCommentForm(){
     this.commentForm.get('comment').disable();
   }
+
+  redirectTo(username){ // if current user click on his own name
+    if(username===this.username){
+      this.router.navigate(['/profile']);
+    }
+    else{
+      this.router.navigate(['/user/'+username]);
+    }
+  }
+
 
   onPostSubmit(){
     const post = {

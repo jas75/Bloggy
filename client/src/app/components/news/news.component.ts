@@ -155,7 +155,7 @@ export class NewsComponent implements OnInit {
     });
   }
 
-  redirectTo(username){
+  redirectTo(username){ // if current user click on his own name
     if(username===this.username){
       this.router.navigate(['/profile']);
     }

@@ -71,7 +71,7 @@ export class PublicProfileComponent implements OnInit {
           this.form.reset();
           this.message=null;
           this.enablePostForm();
-        },1500)
+        },1500);
       }
     });
   }
