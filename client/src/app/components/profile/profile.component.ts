@@ -29,6 +29,9 @@ export class ProfileComponent implements OnInit {
     this.createCommentForm();
   }
 
+/*====
+Forms setup
+====*/
   createPostForm(){
     this.form=this.formBuilder.group({
       body:['',Validators.compose([
@@ -47,6 +50,14 @@ export class ProfileComponent implements OnInit {
         Validators.maxLength(300)
         ])]
     });
+  }
+
+  enableCommentForm(){
+    this.commentForm.get('comment').enable();
+  }
+
+  disableCommentForm(){
+    this.commentForm.get('comment').disable();
   }
 
   onPostSubmit(){
@@ -78,9 +89,18 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  // postComment(id){
-
-  // }
+  postComment(id){
+    this.disableCommentForm();
+    const comment=this.commentForm.get('comment').value;
+    this.postService.postComment(id,comment).subscribe(data=>{
+      this.getCurrentUserPosts();
+      const index=this.newComment.indexOf(id);
+      this.newComment.splice(index, 1);
+      this.enableCommentForm();
+      this.commentForm.reset();
+      if(this.enabledComments.indexOf(id) < 0) this.expand(id);
+    });
+  }
 
   likePost(id){
     this.postService.likedPost(id).subscribe(data=>{

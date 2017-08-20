@@ -70,4 +70,9 @@ export class PostService {
     return this.http.get(this.domain + 'posts/getCurrentUserPosts', this.options).map(res=>res.json());
   }
 
+  getPublicProfilePosts(username){
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'posts//getPublicProfilePosts/' + username,this.options).map(res=>res.json());
+  }
+
 }

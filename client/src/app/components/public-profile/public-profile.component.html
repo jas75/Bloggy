@@ -6,10 +6,151 @@
 </div>
 
 <div *ngIf="foundProfile">
-	<p>
- 	Username: {{ user.username}}
-</p>
-<p>
-	Email: {{ user.email}}
-</p>
+	<div class="mainbody container-fluid">
+	    <div class="row">
+	        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
+	            <div class="panel panel-default">
+	                <div class="panel-body">
+	                    <div class="media">
+	                        <div align="center">
+	                            <img class="thumbnail img-responsive" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="300px" height="300px">
+	                        </div>
+	                        <div class="media-body">
+	                            <hr>
+	                            <h3><strong>Bio</strong></h3>
+	                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
+	                            <hr>
+	                            <h3><strong>Location</strong></h3>
+	                            <p>Earth</p>
+	                            <hr>
+	                            <h3><strong>Gender</strong></h3>
+	                            <p>Unknown</p>
+	                            <hr>
+	                            <h3><strong>Birthday</strong></h3>
+	                            <p>January 01 1901</p>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+	            <div class="panel panel-default">
+	                <div class="panel-body">
+	                    <span>
+	                        <h1 class="panel-title pull-left" style="font-size:30px;"> {{username}} <small>  {{email}} </small> <i class="fa fa-check text-success" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="John Doe is sharing with you"></i></h1>
+	                        <div class="dropdown pull-right">
+	                            
+	                        </div>
+	                    </span>
+	                    <br>
+	                    <br>
+	                    <br>
+	                    <form [formGroup]="form" (submit)="onPostSubmit()">
+
+	                        <div class="form-group">
+	                            <textarea class="form-control profile-post" placeholder="Post something on your friend's wall !" formControlName="body"></textarea>
+	                        </div>
+	                        <div [ngClass]="{'has-success':form.controls.body.valid,'has-error':form.controls.body.dirty && form.controls.body.errors}">
+	                            <ul class="help-block">
+	                                <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">This field is required</li>
+	                                <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.maxlength">Post can't exceed 500 characters</li>
+	                            </ul> 
+	                        </div>
+	                        <div class="show-hide-message" *ngIf="message">
+	                            <div [ngClass]="messageClass">
+	                                {{ message }}
+	                            </div>
+	                        </div>
+	                        <button [disabled]="!form.valid" type="submit" class="btn btn-primary pull-right">Post</button>
+	                    </form>
+	                    
+	                     <span class="pull-left">
+	                        <a href="" class="btn btn-link" style="text-decoration:none;"><i class="fa fa-fw fa-files-o" aria-hidden="true"></i> Posts</a>
+	                        <a href="" class="btn btn-link" style="text-decoration:none;"><i class="fa fa-fw fa-picture-o" aria-hidden="true"></i> Photos <span class="badge">42</span></a>
+	                        <a href="#" class="btn btn-link" style="text-decoration:none;"><i class="fa fa-fw fa-users" aria-hidden="true"></i> Contacts <span class="badge">42</span></a>
+	                    </span>
+	                    
+	                </div>
+	            </div>
+	            <hr>
+	            <!--  Post sample-->
+	            <div *ngFor="let post of publicProfilePosts" class="panel panel-default news-panel">
+	                <div class="panel-body">
+	                    <div class="pull-left">
+	                        <a href="#">
+	                            <img class="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style="margin-right:8px; margin-top:-5px;">
+	                        </a>
+	                    </div>
+	                    <h4><a href="#" style="text-decoration:none;"><strong> {{post.createdBy}} </strong></a> – <small><small><a href="#" style="text-decoration:none; color:grey;"><i><i class="fa fa-clock-o" aria-hidden="true"></i>  {{post.createdAt | date: 'MMM dd, yyyy'}} at {{post.createdAt | date:'shortTime'}}</i></a></small></small></h4>
+	                    <span>
+	                        <div class="navbar-right">
+	                            <div class="dropdown btn-settings">
+	                                <button class="btn btn-link btn-xs dropdown-toggle" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	                                    <i class="fa fa-cog" aria-hidden="true"></i>
+	                                    <span class="caret"></span>
+	                                </button>
+	                                <ul class="dropdown-menu" aria-labelledby="dd1" style="float: right;">
+	                                    <li *ngIf="username===post.createdBy"><a [routerLink]="['/edit-post/',post._id]"><i class="fa fa-fw fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
+	                                    <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
+	                                    <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
+	                                    <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>
+	                                    <li *ngIf="username!==post.createdBy"><a href="#"><i class="fa fa-fw fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
+	                                    
+	                                    <li *ngIf="username===post.createdBy"><a data-toggle="modal" data-target="#deleteModal"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
+	                                </ul>
+	                            </div>
+	                        </div>
+	                    </span>
+	                    <hr>
+	                    <div class="post-content">
+	                        <p>{{post.body}}</p>
+	                    </div>
+	                    <hr>
+
+	                    <!-- Like button -->
+	                    <div class="dropdown">
+	                        <div class="pull-left btn-group-xs">
+	                            <button class="btn btn-success btn-news" [disabled]="post.likedBy.includes(username)" (click)="likePost(post._id)">
+	                                <i class="fa fa-heart" aria-hidden="true"></i> {{post.likes}} Like
+	                            </button>
+	                            <div class="dropdown-content">
+	                                <a [routerLink]="['/user/',liker]" *ngFor="let liker of post.likedBy">{{liker}}</a>
+	                            </div>
+	                        </div>
+	                    </div>
+
+	                    <!-- Dislike button -->
+	                    <div class="dropdown">
+	                        <div class="pull-left btn-group-xs">
+	                            <button  class="btn btn-danger btn-news" style="margin-left: 3px;" [disabled]="post.dislikedBy.includes(username)" (click)="dislikePost(post._id)">
+	                                <i class="fa fa-thumbs-down" aria-hidden="true"></i> {{post.dislikes}} Dislike
+	                            </button>
+	                            <div class="dropdown-content">
+	                                <a  [routerLink]="['/user/',disliker]" *ngFor="let disliker of post.dislikedBy">{{disliker}}</a>
+	                            </div>
+	                        </div>                
+	                    </div>
+
+	                   
+
+	                    <!-- Share button -->
+	                    <div class="dropdown">
+	                        <div class="pull-left btn-group-xs">
+	                            <button class="btn btn-default btn-news" style="margin-left: 3px;">
+	                                <i class="fa fa-retweet"></i> Share
+	                            </button>
+	                        </div>
+	                    </div>
+
+
+
+	                   
+	                    
+	                    
+	                </div>
+
+	                </div>
+	        </div>
+	    </div>
+	</div>
 </div>

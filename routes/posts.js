@@ -368,7 +368,7 @@ module.exports= (router)=>{
 	});
 
 	/* ========
-	Profile page
+	Profile page posts
 	========= */
 
 	router.get('/getCurrentUserPosts',(req,res)=>{
@@ -397,6 +397,42 @@ module.exports= (router)=>{
 				}
 			}
 		});
+	});
+
+	/*=====
+	Public profile posts
+	======*/
+	router.get('/getPublicProfilePosts/:username',(req,res)=>{
+		if(!req.params.username){
+			res.json({success:false,message:"No username provided"});
+		}
+		else{
+			User.findOne({username:req.params.username},(err,user)=>{
+				if(err){
+					res.json({success:false,message:'Something went wrong '+err});
+				}
+				else{
+					if (!user) {
+						res.json({success:false,message:'User not found'});
+					}
+					else{
+						Post.find({createdBy:user.username},(err,posts)=>{
+							if(err){
+								res.json({success:false,message:'Something went wrong '+err});
+							}
+							else{
+								if (!posts) {
+									res.json({success:false,message:'Posts not found !'});
+								}
+								else{
+									res.json({success:true,posts:posts});
+								}
+							}
+						})
+					}
+				}
+			});
+		}
 	});
 
 	return router;
