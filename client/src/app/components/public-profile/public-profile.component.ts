@@ -17,6 +17,8 @@ export class PublicProfileComponent implements OnInit {
 	currentUrl;
   currentUser;
 	foundProfile=false;
+  messageClassPublicProfile;
+  messagePublicProfile;
 	messageClass;
 	message;
   form;
@@ -42,6 +44,39 @@ export class PublicProfileComponent implements OnInit {
     })
   }
 
+  enablePostForm(){
+    this.form.get('body').enable();
+  }
+  disablePostForm(){
+    this.form.get('body').disable();
+  }
+
+  onPostSubmit(){
+    const post ={
+      body: this.form.get('body').value,
+      createdBy:this.currentUser,
+      to:this.username
+    }
+    this.postService.newPost(post).subscribe(data=>{
+      if(!data.success){
+        this.message=data.message;
+        this.messageClass="alert alert-danger";
+      }
+      else{
+        this.disablePostForm();
+        this.message=data.message;
+        this.messageClass="alert alert-success";
+        this.getPublicProfilePosts(this.currentUrl.username);
+        setTimeout(()=>{
+          this.form.reset();
+          this.message=null;
+          this.enablePostForm();
+        },1500)
+      }
+    });
+  }
+  
+
   getPublicProfilePosts(username){
     this.postService.getPublicProfilePosts(username).subscribe(data=>{
       this.publicProfilePosts=data.posts;
@@ -52,8 +87,8 @@ export class PublicProfileComponent implements OnInit {
   	this.currentUrl= this.activatedRoute.snapshot.params;
   	this.authService.getPublicProfile(this.currentUrl.username).subscribe(data=>{
   		if(!data.success){
-  			this.messageClass="alert alert-danger";
-  			this.message=data.message
+  			this.messageClassPublicProfile="alert alert-danger";
+  			this.messagePublicProfile=data.message
   		}
   		else{
   			this.username=data.user.username;
@@ -64,9 +99,6 @@ export class PublicProfileComponent implements OnInit {
     this.getPublicProfilePosts(this.currentUrl.username);
     this.authService.getProfile().subscribe(data=>{
       this.currentUser=data.user.username;
-      if(this.currentUser===this.username){ // if the public profile is the current user's redirect to profile
-      this.router.navigate(['/profile']);
-    }
     });
     
   }

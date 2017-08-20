@@ -13,29 +13,56 @@ module.exports= (router)=>{
 				res.json({success:false,message:"Creator is required"});
 			}
 			else{
-				const post= new Post({
-					body: req.body.body,
-					createdBy:req.body.createdBy
-				});
+				if (!req.body.to) {
+					const post= new Post({
+						body: req.body.body,
+						createdBy:req.body.createdBy
+					});
 
-				post.save((err)=>{
-					if (err) {
-						if (err.errors) {
-							if(err.errors.body){
-								res.json({success:false,message:err.errors.body.message});
+					post.save((err)=>{
+						if (err) {
+							if (err.errors) {
+								if(err.errors.body){
+									res.json({success:false,message:err.errors.body.message});
+								}
+								else{
+									res.json({success:false,message: err.errmsg});
+								}
 							}
 							else{
-								res.json({success:false,message: err.errmsg});
+								res.json({success:false,message:err});
 							}
 						}
 						else{
-							res.json({success:false,message:err});
+							res.json({success:true,message:"Post saved !"});
 						}
-					}
-					else{
-						res.json({success:true,message:"Post saved !"});
-					}
-				});
+					});
+				}
+				else{
+					const post=new Post({
+						body:req.body.body,
+						createdBy:req.body.createdBy,
+						to:req.body.to
+					});
+					post.save((err)=>{
+						if (err) {
+							if (err.errors) {
+								if(err.errors.body){
+									res.json({success:false,message:err.errors.body.message});
+								}
+								else{
+									res.json({success:false,message: err.errmsg});
+								}
+							}
+							else{
+								res.json({success:false,message:err});
+							}
+						}
+						else{
+							res.json({success:true,message:"Post saved !"});
+						}
+					});
+				}
 			}
 		}
 	});
@@ -381,7 +408,10 @@ module.exports= (router)=>{
 					res.json({success:false,message:"User not found"});
 				}
 				else{
-					Post.find({createdBy:user.username},(err,posts)=>{
+					Post.find({$or : [
+					        { $and: [{createdBy:user.username},{to:null}]},
+					        { to: user.username }
+					    	]},(err,posts)=>{
 						if (err) {
 							res.json({success:false,message:err});
 						}
@@ -416,19 +446,22 @@ module.exports= (router)=>{
 						res.json({success:false,message:'User not found'});
 					}
 					else{
-						Post.find({createdBy:user.username},(err,posts)=>{
-							if(err){
-								res.json({success:false,message:'Something went wrong '+err});
-							}
-							else{
-								if (!posts) {
-									res.json({success:false,message:'Posts not found !'});
+						Post.find({$or : [
+					        { $and:[{createdBy:user.username},{to:null}]},
+					        { to: user.username }
+					    	]},(err,posts)=>{
+								if(err){
+									res.json({success:false,message:'Something went wrong '+err});
 								}
 								else{
-									res.json({success:true,posts:posts});
+									if (!posts) {
+										res.json({success:false,message:'Posts not found !'});
+									}
+									else{
+										res.json({success:true,posts:posts});
+									}
 								}
-							}
-						})
+							}).sort({'_id':-1});
 					}
 				}
 			});

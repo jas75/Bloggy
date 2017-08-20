@@ -58,6 +58,7 @@ Schema for post
 const postSchema= new Schema({
 	body:{ type: String, required:true, validate:bodyValidators},
 	createdBy: { type: String},
+	to: {type:String, default:null },
 	createdAt: { type:Date, default:Date.now()},
 	likes: { type:Number,default:0},
 	likedBy: { type:Array},

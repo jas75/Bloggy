@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl,FormGroup,FormBuilder,Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { PostService } from '../../services/post.service';
 
@@ -29,7 +30,8 @@ export class NewsComponent implements OnInit {
     private formBuilder:FormBuilder,
     private authService:AuthService,
     private postService:PostService,
-    private location: Location
+    private location: Location,
+    private router: Router
     ) {
       this.createPostForm(); 
       this.createCommentForm();
@@ -151,6 +153,15 @@ export class NewsComponent implements OnInit {
     this.postService.dislikedPost(id).subscribe(data=>{
       this.getAllPosts();
     });
+  }
+
+  redirectTo(username){
+    if(username===this.username){
+      this.router.navigate(['/profile']);
+    }
+    else{
+      this.router.navigate(['/user/'+username]);
+    }
   }
 
   /*======
