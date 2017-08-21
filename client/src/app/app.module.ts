@@ -19,6 +19,7 @@ import { NewsComponent } from './components/news/news.component';
 import { EditPostComponent } from './components/news/edit-post/edit-post.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { SamplesComponent } from './components/samples/samples.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { SamplesComponent } from './components/samples/samples.component';
     NewsComponent,
     EditPostComponent,
     PublicProfileComponent,
-    SamplesComponent
+    SamplesComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,

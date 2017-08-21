@@ -11,20 +11,24 @@
           <a class="navbar-brand" routerLink="/"><i class="fa fa-th"></i><strong>B</strong>loggy</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/">Home</a></li>
-            <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/login">Login</a></li>
+          <div class="nav navbar-nav navbar-left">
+            <li *ngIf="!authService.loggedIn()"[routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/">Home</a></li>
+            <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/stream">Stream</a></li>
+            <li *ngIf="authService.loggedIn()"><a href="#"><i class="fa fa-bell-o fa-lg" aria-hidden="true"></i></a></li>
+            <li *ngIf="authService.loggedIn()"><a href="#"><i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i></a></li>
             <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/register">Register</a></li>
-            <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/news">News</a></li>
-           
+          </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/login">Login</a></li>
+            <span *ngIf="authService.loggedIn()" class="user-avatar pull-left" style="margin-top:7px;">
+                <img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle" title="John Doe" alt="John Doe" style="width:30px;">
+              </span>
             <li  *ngIf="authService.loggedIn()" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{usernameNavbar}}<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a routerLink="/profile">My profile</a></li>
-                <li><a href="#">Edit profile</a></li>
-                <li><a href="#">Settings</a></li>
+                <li><a routerLink="/profile">Profile</a></li>
+                <li><a routerLink="/edit-profile">Edit profile</a></li>
                 <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
                 <li><a href="#" (click)="onLogoutClick()">Log out</a></li>
               </ul>
             </li>

@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
           if (this.previousUrl) { // then we know that the user was redirected
             this.router.navigate([this.previousUrl]); // redirect to the initial url
           }else{
-            this.router.navigate(['/news']);
+            this.router.navigate(['/stream']);
           }
         },1500);
         this.disableForm();

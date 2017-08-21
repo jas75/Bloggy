@@ -8,6 +8,7 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
 import { NewsComponent } from './components/news/news.component';
 import { EditPostComponent } from './components/news/edit-post/edit-post.component';
 import { SamplesComponent } from './components/samples/samples.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 
@@ -28,7 +29,7 @@ const appRoutes: Routes = [
     canActivate:[NotAuthGuard]
   },
   {
-    path: 'news',
+    path: 'stream',
     component: NewsComponent,
     canActivate: [AuthGuard]
   },
@@ -50,6 +51,11 @@ const appRoutes: Routes = [
   {
     path:"samples",
     component: SamplesComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'edit-profile',
+    component: EditProfileComponent,
     canActivate:[AuthGuard]
   },
   { path: '**', component: HomeComponent } // The "Catch-All" Route

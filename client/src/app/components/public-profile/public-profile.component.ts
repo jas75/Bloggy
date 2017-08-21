@@ -125,6 +125,15 @@ export class PublicProfileComponent implements OnInit {
       }
     });
   }
+
+  redirectTo(username){ // if current user click on his own name
+    if(username===this.currentUser){
+      this.router.navigate(['/profile']);
+    }
+    else{
+      this.router.navigate(['/user/'+username]);
+    }
+  }
 /*=======
   Posts
 =======*/

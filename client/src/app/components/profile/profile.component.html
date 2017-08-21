@@ -7,6 +7,7 @@
                         <div align="center">
                             <img class="thumbnail img-responsive" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="300px" height="300px">
                         </div>
+                        <button class="btn btn-default btn-xs" style="width: 100%;" [routerLink]="['/edit-profile']"><i class="fa fa-pencil-square-o"></i>&nbsp; Edit profile</button>
                         <div class="media-body">
                             <hr>
                             <h3><strong>Bio</strong></h3>
@@ -164,7 +165,8 @@
                             <div *ngIf="enabledComments.includes(post._id)">
                                 
                                     <div *ngFor="let comment of post.comments" class="list-group-item">
-                                        <strong>{{comment.commentator}} :</strong> {{comment.comment}}
+
+                                         <a (click)="redirectTo(comment.commentator)" style="cursor: pointer;text-decoration: none;"><img class="img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="35px" height="35px" style="margin-left:3px; margin-right:-5px;"><strong> &nbsp;&nbsp;{{comment.commentator}}</strong> </a>: {{comment.comment}}
 
                                     </div>
                                 
