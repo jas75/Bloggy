@@ -4,7 +4,7 @@
   "description": "First angular blog",
   "main": "index.js",
   "scripts": {
-    "build": "cd client && ng build --prod && cd .. && node index.js"
+    "build": "cd client && ng build --prod"
   },
   "repository": {
     "type": "git",
