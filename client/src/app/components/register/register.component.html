@@ -50,7 +50,7 @@
 
 							<ul class="help-block">
 								<li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is required</li>
-        						<li *ngIf="form.controls.username.errors?.minlength && form.controls.username.dirty || form.controls.username.errors?.maxlength && form.controls.username.dirty ">Minimum characters: 3, Maximum characters: 30</li>
+        						<li *ngIf="form.controls.username.errors?.minlength && form.controls.username.dirty || form.controls.username.errors?.maxlength && form.controls.username.dirty ">Minimum characters: 5, Maximum characters: 30</li>
         						<li *ngIf="form.controls.username.errors?.validateUsername && form.controls.username.dirty">
         							Username must not have any special characters 
         						</li>
