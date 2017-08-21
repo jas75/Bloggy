@@ -37,6 +37,10 @@ export class NewsComponent implements OnInit {
       this.createCommentForm();
     }
 
+
+/*======
+  Posts
+=======*/
   createPostForm(){
     this.form=this.formBuilder.group({
       body:['', Validators.compose([
@@ -55,12 +59,7 @@ export class NewsComponent implements OnInit {
     this.form.get('body').disable();
   }
 
-  enableCommentForm(){
-    this.commentForm.get('comment').enable();
-  }
-  disableCommentForm(){
-    this.commentForm.get('comment').disable();
-  }
+  
 
   // When the refresh button is hit
   reloadPosts(){
@@ -119,7 +118,7 @@ export class NewsComponent implements OnInit {
         setTimeout(()=>{
           this.processing=false;
           window.location.reload();
-        },2000);
+        },1500);
       }
     });
   }
@@ -131,16 +130,8 @@ export class NewsComponent implements OnInit {
   getAllPosts(){
     this.postService.getAllPosts().subscribe(data=>{
       this.newsPosts=data.posts;
+      console.log(this.newsPosts);
     });
-  }
-
-  ngOnInit() {
-
-    // I take the user that is currently logged in to pass his name on post form
-    this.authService.getProfile().subscribe(data=>{
-      this.username=data.user.username;
-    });
-    this.getAllPosts();
   }
 
   likePost(id){
@@ -163,6 +154,10 @@ export class NewsComponent implements OnInit {
       this.router.navigate(['/user/'+username]);
     }
   }
+
+  /*======
+    Posts
+  =======*/
 
   /*======
   Comments
@@ -208,6 +203,13 @@ export class NewsComponent implements OnInit {
     });
   }
 
+  enableCommentForm(){
+    this.commentForm.get('comment').enable();
+  }
+  disableCommentForm(){
+    this.commentForm.get('comment').disable();
+  }
+
   // show the comments
   expand(id){
     this.enabledComments.push(id);
@@ -217,6 +219,19 @@ export class NewsComponent implements OnInit {
   collapse(id){
     const index=this.enabledComments.indexOf(id);
     this.enabledComments.splice(index, 1);
+  }
+
+  /*======
+  Comments
+  =======*/
+
+  ngOnInit() {
+
+    // I take the user that is currently logged in to pass his name on post form
+    this.authService.getProfile().subscribe(data=>{
+      this.username=data.user.username;
+    });
+    this.getAllPosts();
   }
 
 }

@@ -16,7 +16,8 @@ module.exports= (router)=>{
 				if (!req.body.to) {
 					const post= new Post({
 						body: req.body.body,
-						createdBy:req.body.createdBy
+						createdBy:req.body.createdBy,
+						createdAt:Date.now()
 					});
 
 					post.save((err)=>{
@@ -42,7 +43,8 @@ module.exports= (router)=>{
 					const post=new Post({
 						body:req.body.body,
 						createdBy:req.body.createdBy,
-						to:req.body.to
+						to:req.body.to,
+						createdAt:Date.now()
 					});
 					post.save((err)=>{
 						if (err) {

@@ -12,17 +12,23 @@ import { FormControl,FormGroup,FormBuilder,Validators } from '@angular/forms';
 })
 export class PublicProfileComponent implements OnInit {
 
-	username;
-  email;
+	username; // public page user
+  email;// public page email
 	currentUrl;
-  currentUser;
-	foundProfile=false;
+  currentUser;// current user
+	foundProfile=false;  
   messageClassPublicProfile;
   messagePublicProfile;
 	messageClass;
 	message;
   form;
+  commentForm;
+  postIdToDelete;
+  deleteMessageClass;
+  deleteMessage;
   publicProfilePosts;
+  newComment=[];
+  enabledComments=[];
 
   constructor(
   	private authService:AuthService,
@@ -32,8 +38,11 @@ export class PublicProfileComponent implements OnInit {
     private router: Router
   	) {
       this.createPostForm();
+      this.createCommentForm();
      }
-
+/* ======
+  Posts
+======= */
   createPostForm(){
     this.form=this.formBuilder.group({
       body:['', Validators.compose([
@@ -83,6 +92,91 @@ export class PublicProfileComponent implements OnInit {
     });
   }
 
+  likePost(id){
+    this.postService.likedPost(id).subscribe(data=>{
+      this.getPublicProfilePosts(this.currentUrl.username);
+    });
+  }
+
+  dislikePost(id){
+    this.postService.dislikedPost(id).subscribe(data=>{
+      this.getPublicProfilePosts(this.currentUrl.username);
+    });
+  }
+
+  onClickDelete(id){
+    this.postIdToDelete=null;
+    this.postIdToDelete=id;
+  }
+
+  onSureDelete(){
+    this.postService.deletePost(this.postIdToDelete).subscribe(data=>{
+      if(!data.success){
+        this.deleteMessageClass="alert alert-danger";
+        this.deleteMessage=data.message;
+      }
+      else{
+        this.deleteMessage=data.message;
+        this.deleteMessageClass="alert alert-success";
+        setTimeout(()=>{
+          this.deleteMessage=null;
+          window.location.reload();
+        },1500);
+      }
+    });
+  }
+/*=======
+  Posts
+=======*/
+
+/*========
+  Comments
+  ========*/
+
+  createCommentForm(){
+    this.commentForm=this.formBuilder.group({
+      comment: ['',Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(300)
+        ])]
+    });
+  }
+  postComment(id){
+    const comment = this.commentForm.get('comment').value;
+    this.postService.postComment(id,comment).subscribe(data=>{
+      this.getPublicProfilePosts(this.currentUrl.username);
+      const index=this.newComment.indexOf(id);
+      this.newComment.splice(index,1);
+      this.commentForm.reset();
+      if(this.enabledComments.indexOf(id) < 0) this.expand(id);
+    });
+  }
+  draftComment(id){
+    this.newComment=[];
+    this.newComment.push(id);
+  }
+
+  cancelSubmission(id){
+    const index= this.newComment.indexOf(id);
+    this.newComment.splice(index, 1);
+  }
+
+  expand(id){
+    this.enabledComments=[];
+    this.enabledComments.push(id);
+  }
+
+  collapse(id){
+    this.enabledComments=[];
+    const index=this.enabledComments.indexOf(id);
+    this.enabledComments.splice(index, 1);
+  }
+/*========
+  Comments
+  ========*/
+
+
   ngOnInit() {
   	this.currentUrl= this.activatedRoute.snapshot.params;
   	this.authService.getPublicProfile(this.currentUrl.username).subscribe(data=>{
@@ -100,7 +194,6 @@ export class PublicProfileComponent implements OnInit {
     this.authService.getProfile().subscribe(data=>{
       this.currentUser=data.user.username;
     });
-    
   }
 
 }

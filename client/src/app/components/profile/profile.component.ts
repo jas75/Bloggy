@@ -18,6 +18,9 @@ export class ProfileComponent implements OnInit {
   messageClass;
   message;
   profilePosts;
+  postIdToDelete;
+  deleteMessage;
+  deleteMessageClass;
   newComment=[];
   enabledComments=[];
 
@@ -123,6 +126,26 @@ Forms setup
   dislikePost(id){
     this.postService.dislikedPost(id).subscribe(data=>{
       this.getCurrentUserPosts();
+    });
+  }
+
+  onClickDelete(id){
+    this.postIdToDelete=id;
+  }
+
+  onSureDelete(){
+    this.postService.deletePost(this.postIdToDelete).subscribe(data=>{
+      if(!data.success){
+        this.deleteMessageClass="alert alert-danger";
+        this.deleteMessage=data.message;
+      }
+      else{
+        this.deleteMessageClass="alert alert-success";
+        this.deleteMessage=data.message;
+        setTimeout(()=>{
+          window.location.reload();
+        },1500);
+      }
     });
   }
 
