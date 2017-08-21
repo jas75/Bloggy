@@ -27,6 +27,7 @@ export class PublicProfileComponent implements OnInit {
   deleteMessageClass;
   deleteMessage;
   publicProfilePosts;
+  processing;
   newComment=[];
   enabledComments=[];
 

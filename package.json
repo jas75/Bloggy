@@ -4,7 +4,7 @@
   "description": "First angular blog",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "cd client && ng build --prod && cd .. && node index.js"
   },
   "repository": {
     "type": "git",

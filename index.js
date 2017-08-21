@@ -9,7 +9,7 @@ const authentication = require('./routes/authentication')(router);
 const posts = require('./routes/posts')(router);
 const bodyParser=require('body-parser');
 const cors=require('cors');
-
+const port = process.env.PORT || 8080;
 
 
 mongoose.connect(config.uri, (err) => {
@@ -47,6 +47,6 @@ app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname+'/public/index.html'));
 });
 
-app.listen (8080,()=>{
-	console.log('Listening on port 8080');
+app.listen (port,()=>{
+	console.log('Listening on ' + port);
 })

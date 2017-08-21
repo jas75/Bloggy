@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   postIdToDelete;
   deleteMessage;
   deleteMessageClass;
+  processing;
   newComment=[];
   enabledComments=[];
 
