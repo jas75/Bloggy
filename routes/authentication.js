@@ -196,5 +196,54 @@ module.exports= (router)=>{
 			});
 		}
 	});
+
+	//edit-profile routes
+
+	router.put('/editProfile',(req,res)=>{
+		if(!req.body.bio){
+			res.json({success:false,message:"No bio provided"});
+		}
+		else{
+			if(!req.body.location){
+				res.json({success:false,message:"No location provided"});
+			}
+			else{
+				if(!req.body.gender){
+					res.json({success:false,message:"No gender provided"});
+				}
+				else{
+					if (!req.body.birthday) {
+						res.json({success:false,message:"No birthday provided"});
+					}
+					else{
+						User.findOne({_id:req.decoded.userId},(err,user)=>{
+							if(err){
+								res.json({success:false,message:"Something went wrong: "+err});
+							}
+							else{
+								if(!user){
+									res.json({success:false,message:"User not found"});
+								}
+								else{
+									user.bio=req.body.bio;
+									user.location=req.body.location;
+									user.gender=req.body.gender;
+									user.birthday=req.body.birthday;
+									user.save((err)=>{
+										if(err){
+											res.json({success:false,message:'Something went wrong: '+ err});
+										}
+										else{
+											res.json({success:true,message:"Account updated !"});
+										}
+									});	
+								}
+							}
+						});
+					}
+				}
+			}
+		}
+	});	
 	return router;
 };

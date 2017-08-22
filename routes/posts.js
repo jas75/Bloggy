@@ -152,7 +152,7 @@ module.exports= (router)=>{
 									}
 									else{
 										post.body= req.body.body;
-										post.save((err)=>{
+										post.save(function(err){
 											if (err) {
 												res.json({success:false,message:err});
 											}
