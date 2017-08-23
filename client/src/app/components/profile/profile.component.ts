@@ -13,6 +13,10 @@ export class ProfileComponent implements OnInit {
 
 	username;
   email;
+  bio;
+  location;
+  gender;
+  birthday;
   form;
   commentForm;
   messageClass;
@@ -178,6 +182,10 @@ Forms setup
   	this.authService.getProfile().subscribe(data=>{
     	this.username=data.user.username;
       this.email=data.user.email;
+      this.bio=data.user.bio;
+      this.location=data.user.location;
+      this.gender=data.user.gender;
+      this.birthday=data.user.birthday;
   	});
     this.getCurrentUserPosts();
   }

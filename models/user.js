@@ -78,33 +78,6 @@ let validPassword = (password)=>{
 	}
 };
 
-let bioLengthChecker = (bio)=>{
-	if(!bio){
-		return false;
-	}
-	else{
-		if(bio.length<1 || bio.length > 500){
-			return false;
-		}
-		else{
-			return true;
-		}
-	}
-};
-
-let genderLengthChecker= (gender)=>{
-	if(!gender){
-		return false;
-	}
-	else{
-		if (gender.length <= 1) {
-			return false;
-		}
-		else{
-			return true;
-		}
-	}
-}
 
  /* =======
   VALIDATORS
@@ -141,18 +114,6 @@ const passwordValidators = [
 	}
 ];
 
-const bioValidators = [
-	{
-		validator:bioLengthChecker,
-		message: "Your bio must not exceed 500 characters"
-	}
-];
-const genderValidators = [
-	{
-		validator:genderLengthChecker,
-		message: "No gender is that short"
-	}
-];
 
 /* ========
 Schema for user
@@ -160,11 +121,11 @@ Schema for user
 const userSchema=new Schema({
 	email: { type: String, required: true, unique: true, lowercase: true, validate: emailValidators},
 	username: { type: String, required: true, unique: true, lowercase: true, validate: usernameValidators},
-	bio: { type:String,default:null,validate:bioValidators},
+	password: { type: String, required: true,validate: passwordValidators},
+	bio: { type:String,default:null},
 	location: {type:String, default:null},
-	gender: {type:String,default:null,validate:genderValidators},
-	birthday: { type:String,default:null},
-	password: { type: String, required: true,validate: passwordValidators}
+	gender: {type:String,default:null},
+	birthday: { type:Date,default:null}
 });
 
 
@@ -179,6 +140,21 @@ userSchema.pre('save', function(next){
 		next();
 	});
 });
+
+// userSchema.pre('validate',function(next){
+// 	if(this.bio===null || this.location===null || this.gender=null || this.birthday===null){
+// 		return next();
+// 	}
+// 	else{
+
+// 	}
+// })
+
+// userSchema.pre('validate',function(next){
+// 	if(this.bio === null || this.location===null || this.gender===null || this.birthday===null){
+// 		next();
+// 	}
+// });
 
 // Return true or false depending the matching passwords for the login part
 userSchema.methods.comparePassword= function(password){

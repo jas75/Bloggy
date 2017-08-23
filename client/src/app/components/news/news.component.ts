@@ -130,7 +130,6 @@ export class NewsComponent implements OnInit {
   getAllPosts(){
     this.postService.getAllPosts().subscribe(data=>{
       this.newsPosts=data.posts;
-      console.log(this.newsPosts);
     });
   }
 

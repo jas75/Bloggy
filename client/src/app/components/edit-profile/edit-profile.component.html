@@ -7,36 +7,49 @@
 </div>
 <hr>
 
+<div class="show-hide-message" *ngIf="message">
+    <div [ngClass]="messageClass">
+        {{ message }}
+    </div>
+</div>
+
 
 <div class="row">
-	<div class="col-md-12">
-		
 
+	<div class="col-md-3 col-sm-3 col-xs-12">
 		<div class="panel panel-default">
 	        <div class="panel-body">
 	            <div align="center">
 	                <div class="">
-	                    <img class="img-thumbnail img-responsive" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="300px" height="300px">
+	                    <img  class="img-thumbnail img-responsive" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="300px" height="300px">
 	                </div>
 	                <br>
-	                <button class="btn btn-primary btn-upload"><i class="fa fa-upload" aria-hidden="true"></i> Edit photo</button>
-	                
+	                <button class="btn btn-primary btn-upload"><i class="fa fa-upload" aria-hidden="true"></i> Edit photo</button> 
 	            </div>
 	        </div>
-	    </div> 
-		
+	    </div>
+	</div>
+	
+	<div class="col-md-9 col-sm-9 col-xs-12"> 
 	    <div class="panel panel-default">
 	        <div class="panel-body">
 	      
-	            <form class="form-horizontal">
+	            <form class="form-horizontal" [formGroup]="editForm" (submit)="onEditSubmit()">
 
 	            	<label>Your bio</label>
-	                <textarea class="form-control" rows="3"></textarea>
+	            	<div [ngClass]="{'has-error':editForm.controls.bio.errors}">
+	            		<textarea [(ngModel)]="user.bio" class="form-control" rows="3" formControlName="bio"></textarea>
+	            		<ul class="help-block">
+	            			<li *ngIf="editForm.controls.bio.errors?.maxlength">Bio can't exceed 500 characters</li>
+	            		</ul>
+	            	</div>
+	                
 		            
 		            <br>
 	                <label for="Your_location">Your location</label>
-	                	<select name="Country" class="form-control"> 
-							<option value="" selected="selected">Select Country</option> 
+	                	<select [(ngModel)]="user.location" name="Country" class="form-control" formControlName="location"> 
+							<option  value="" selected="selected">Select Country</option> 
+							<option *ngIf="user.location" [value]="user.location" [selected]="user.location">{{user.location}}</option>
 							<option value="United States">United States</option> 
 							<option value="United Kingdom">United Kingdom</option> 
 							<option value="Afghanistan">Afghanistan</option> 
@@ -280,13 +293,20 @@
 							<option value="Zimbabwe">Zimbabwe</option>
 						</select>
 	                <br>
-	                <label for="Your_gender">Your gender</label>
-	                <input type="text" class="form-control" id="Your_gender" placeholder="Fill me out">
+
+	                <div [ngClass]="{'has-error':editForm.controls.gender.errors}">
+	            		<label for="Your_gender">Your gender</label>
+	                	<input [(ngModel)]="user.gender" type="text" class="form-control" id="Your_gender" formControlName="gender" value="{{user.gender}}">
+	            		<ul class="help-block">
+	            			<li *ngIf="editForm.controls.gender.errors?.maxlength">Gender can't exceed 40 characters</li>
+	            		</ul>
+	            	</div>
 	                <br>
 	                <label>Your Birthday</label>
 	                <div class="form-inline" id="birth-date">
-	                    <select id="profile_date_year" name="profile[date][year]" class="form-control">
+	                    <select [(ngModel)]="bYear" id="profile_date_year" name="profile[date][year]" class="form-control" formControlName="YYYY">
 	                        <option value="" selected="selected">Year</option>
+	                        <option *ngIf="bYear" [value]="bYear" [selected]="bYear">{{bYear}}</option>
 	                        <option value="2015">2015</option>
 	                        <option value="2014">2014</option>
 	                        <option value="2013">2013</option>
@@ -413,32 +433,34 @@
 	                        <option value="1892">1892</option>
 	                        <option value="1891">1891</option>
 	                    </select>
-	                    <select id="profile_date_month" name="profile[date][month]" class="form-control">
+	                    <select [(ngModel)]="bMonth" id="profile_date_month" name="profile[date][month]" class="form-control" formControlName="mm">
 	                        <option value="" selected="selected">Month</option>
-	                        <option value="1">January</option>
-	                        <option value="2">February</option>
-	                        <option value="3">March</option>
-	                        <option value="4">April</option>
-	                        <option value="5">May</option>
-	                        <option value="6">June</option>
-	                        <option value="7">July</option>
-	                        <option value="8">August</option>
-	                        <option value="9">September</option>
+	                        <option *ngIf="bMonth" [value]="bMonth" [selected]="bMonth">{{bMonth}}</option>
+	                        <option value="01">January</option>
+	                        <option value="02">February</option>
+	                        <option value="03">March</option>
+	                        <option value="04">April</option>
+	                        <option value="05">May</option>
+	                        <option value="06">June</option>
+	                        <option value="07">July</option>
+	                        <option value="08">August</option>
+	                        <option value="09">September</option>
 	                        <option value="10">October</option>
 	                        <option value="11">November</option>
 	                        <option value="12">December</option>
 	                    </select>
-	                    <select id="profile_date_day" name="profile[date][day]" class="form-control">
+	                    <select  [(ngModel)]="bDay" id="profile_date_day" name="profile[date][day]" class="form-control" formControlName="dd">
 	                        <option value="" selected="selected">Day</option>
-	                        <option value="1">1</option>
-	                        <option value="2">2</option>
-	                        <option value="3">3</option>
-	                        <option value="4">4</option>
-	                        <option value="5">5</option>
-	                        <option value="6">6</option>
-	                        <option value="7">7</option>
-	                        <option value="8">8</option>
-	                        <option value="9">9</option>
+	                        <option *ngIf="bDay" [value]="bDay" [selected]="bDay">{{bDay}}</option>
+	                        <option value="01">1</option>
+	                        <option value="02">2</option>
+	                        <option value="03">3</option>
+	                        <option value="04">4</option>
+	                        <option value="05">5</option>
+	                        <option value="06">6</option>
+	                        <option value="07">7</option>
+	                        <option value="08">8</option>
+	                        <option value="09">9</option>
 	                        <option value="10">10</option>
 	                        <option value="11">11</option>
 	                        <option value="12">12</option>
@@ -463,11 +485,16 @@
 	                        <option value="31">31</option>
 	                    </select>
 	                </div>
+	                <div class="row">
+	                	<div class="col-md-12">
+	                		<button [disabled]="!editForm.valid" type="submit" class="btn btn-primary pull-right">Edit Profile</button>
+	                	</div>
+	                </div>
+	                
 	            </form>
 	        </div>
 	    </div>
 	</div>
 </div>
-
 
 

@@ -119,12 +119,14 @@ export class RegisterComponent implements OnInit {
       if(!data.success){
         this.messageClass='alert alert-danger';
         this.message=data.message;
+        console.log(data);
         this.processing=false;
         this.enableForm();
       }
       else{
         this.messageClass='alert alert-success';
         this.message=data.message;
+        console.log(data);
         setTimeout(()=>{
           this.router.navigate(['/login']);
         },2000);

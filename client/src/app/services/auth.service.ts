@@ -79,4 +79,9 @@ export class AuthService {
     this.createAuthenticationHeaders();
     return this.http.get(this.domain + 'authentication/publicProfile/' + username, this.options).map(res=>res.json());
   }
+  editProfile(bio,location,gender,birthday){
+    this.createAuthenticationHeaders();
+    const editData = { bio:bio,location:location,gender:gender,birthday:birthday};
+    return this.http.put(this.domain + 'authentication/editProfile',editData,this.options).map(res=>res.json());
+  }
 }

@@ -20,7 +20,7 @@ module.exports= (router)=>{
 					let user= new User({
 						email: req.body.email.toLowerCase(),
 						username: req.body.username.toLowerCase(),
-						password: req.body.password
+						password: req.body.password,
 					});
 
 					user.save((err)=>{
@@ -161,7 +161,7 @@ module.exports= (router)=>{
 	});
 
 	router.get('/profile',(req,res)=>{
-		User.findOne({ _id:req.decoded.userId}).select('username email').exec((err,user)=>{
+		User.findOne({ _id:req.decoded.userId},(err,user)=>{
 			if(err){
 				res.json({success:false,message:err});
 			}
@@ -199,51 +199,21 @@ module.exports= (router)=>{
 
 	//edit-profile routes
 
-	router.put('/editProfile',(req,res)=>{
-		if(!req.body.bio){
-			res.json({success:false,message:"No bio provided"});
-		}
-		else{
-			if(!req.body.location){
-				res.json({success:false,message:"No location provided"});
+	router.put('/editProfile',(req,res)=>{	
+		User.findByIdAndUpdate(req.decoded.userId,{$set:{bio:req.body.bio, location:req.body.location, gender:req.body.gender, birthday:req.body.birthday}},{new:true},function(err,user){
+			if(err){
+				res.json({success:false,message:"Something went wrong: "+err});
 			}
 			else{
-				if(!req.body.gender){
-					res.json({success:false,message:"No gender provided"});
+				if(!user){
+					res.json({success:false,message:"User not found"});
 				}
 				else{
-					if (!req.body.birthday) {
-						res.json({success:false,message:"No birthday provided"});
-					}
-					else{
-						User.findOne({_id:req.decoded.userId},(err,user)=>{
-							if(err){
-								res.json({success:false,message:"Something went wrong: "+err});
-							}
-							else{
-								if(!user){
-									res.json({success:false,message:"User not found"});
-								}
-								else{
-									user.bio=req.body.bio;
-									user.location=req.body.location;
-									user.gender=req.body.gender;
-									user.birthday=req.body.birthday;
-									user.save((err)=>{
-										if(err){
-											res.json({success:false,message:'Something went wrong: '+ err});
-										}
-										else{
-											res.json({success:true,message:"Account updated !"});
-										}
-									});	
-								}
-							}
-						});
-					}
+					res.json({success:true,message:'Account updated !'});
 				}
 			}
-		}
+		});				
 	});	
+
 	return router;
 };
