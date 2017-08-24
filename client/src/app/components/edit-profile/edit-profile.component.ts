@@ -14,7 +14,7 @@ export class EditProfileComponent implements OnInit {
   message;
   user;
   birthday;
-  bYear;
+  bYear; // cut the date to fit the select tag
   bMonth;
   bDay;
   
@@ -41,7 +41,6 @@ export class EditProfileComponent implements OnInit {
   	const bio =this.editForm.get('bio').value;
   	const location=this.editForm.get('location').value;
   	const gender= this.editForm.get('gender').value;
-
   	const birthday = new Date(this.editForm.get('YYYY').value + "-"+this.editForm.get('mm').value+"-"+this.editForm.get('dd').value);
 
   	this.authService.editProfile(bio,location,gender,birthday).subscribe(data=>{

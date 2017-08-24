@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-md-12">
 		
-		 <h1 class="" style="font-size:30px;"><i class="fa fa fa-pencil-square-o"></i> Edit profile</h1>
+		 <h2 class="" style="font-size:30px;"><i class="fa fa fa-pencil-square-o"></i> Edit profile</h2>
 		    
 	</div>
 </div>
@@ -13,7 +13,6 @@
     </div>
 </div>
 
-
 <div class="row">
 
 	<div class="col-md-3 col-sm-3 col-xs-12">
@@ -24,7 +23,13 @@
 	                    <img  class="img-thumbnail img-responsive" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="300px" height="300px">
 	                </div>
 	                <br>
-	                <button class="btn btn-primary btn-upload"><i class="fa fa-upload" aria-hidden="true"></i> Edit photo</button> 
+	                <form enctype="multipart/form-data" style="display: inline-block;">
+	                	<div class="row">
+	                		<label class="btn btn-default" for="file"><i class="fa fa-upload" aria-hidden="true"></i> Edit Photo</label>
+		                	<input class="input-file" name="filename" id="file" type="file"> 
+		                	<button type="submit" class="btn btn-primary">Send</button>
+		                </div>	
+	                </form>             
 	            </div>
 	        </div>
 	    </div>
@@ -34,7 +39,7 @@
 	    <div class="panel panel-default">
 	        <div class="panel-body">
 	      
-	            <form class="form-horizontal" [formGroup]="editForm" (submit)="onEditSubmit()">
+	            <form class="" [formGroup]="editForm" (submit)="onEditSubmit()">
 
 	            	<label>Your bio</label>
 	            	<div [ngClass]="{'has-error':editForm.controls.bio.errors}">
@@ -490,11 +495,11 @@
 	                		<button [disabled]="!editForm.valid" type="submit" class="btn btn-primary pull-right">Edit Profile</button>
 	                	</div>
 	                </div>
-	                
-	            </form>
+	             </form>         
 	        </div>
 	    </div>
 	</div>
 </div>
+
 
 
