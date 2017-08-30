@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl,FormGroup,FormBuilder,Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { FileUploader ,FileSelectDirective} from 'ng2-file-upload';
+
 
 @Component({
   selector: 'app-edit-profile',
@@ -17,16 +19,29 @@ export class EditProfileComponent implements OnInit {
   bYear; // cut the date to fit the select tag
   bMonth;
   bDay;
+  profilePic;
   
+  // public uploader: FileUploader= new FileUploader({url:'http://localhost:8080/authentication/edit-photo',headers:[{name:'authorization',value:this.authService.authToken}]});
 
-  constructor(
+
+    constructor(
   	private formBuilder:FormBuilder,
   	private authService:AuthService
   	) {
-  	this.createEditForm(); 
+  	this.createEditForm();  
+  }
+
+  onChange(event){
+    var files=event.srcElement.files;
+    
+    this.authService.makeFileRequest('http://localhost:8080/authentication/edit-photo',[],files).subscribe((data)=>{
+      this.profilePic=data.file.filename;
+      console.log(this.profilePic+'onChange');
+    });
   }
 
   createEditForm(){
+    // console.log(this.user.bio);
   	this.editForm=this.formBuilder.group({
   		bio: ['',Validators.maxLength(500)],
   		location: [''],
@@ -38,6 +53,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   onEditSubmit(){
+    // console.log(this.uploader);
   	const bio =this.editForm.get('bio').value;
   	const location=this.editForm.get('location').value;
   	const gender= this.editForm.get('gender').value;
@@ -61,14 +77,26 @@ export class EditProfileComponent implements OnInit {
   	});
   }
 
+
+
   ngOnInit() {
     this.authService.getProfile().subscribe(data=>{
-      this.user=data.user;
-      this.birthday=new Date(this.user.birthday);
-      this.bMonth=this.birthday.getUTCMonth() + 1;
-      this.bYear=this.birthday.getUTCFullYear();
-      this.bDay=this.birthday.getUTCDate();
+      if(!data.success){
+        console.log('ya un prob');
+      }
+      else{
+        console.log('pas de prob');
+        this.user=data.user;
+        this.birthday=new Date(this.user.birthday);
+        this.bMonth=this.birthday.getUTCMonth() + 1;
+        this.bYear=this.birthday.getUTCFullYear();
+        this.bDay=this.birthday.getUTCDate();
+        this.profilePic=data.user.img;
+        console.log(this.profilePic+'oninit');
+      }
+
     });
+
   }
 
 }

@@ -3,6 +3,7 @@ import { Http, Headers, RequestOptions} from '@angular/http';
 import { Subject } from 'rxjs/Subject'; 
 import 'rxjs/add/operator/map';
 import { tokenNotExpired } from 'angular2-jwt';
+import { Observable } from 'rxjs/Rx';
 
 
 @Injectable()
@@ -13,10 +14,49 @@ export class AuthService {
   user;
   options;
   public navbarUsernameSubject = new Subject<any>();
+  progress$;
+  progressObserver;
+  progress;
 
   constructor(
   	private http: Http
-  	) { }
+  	) {
+    this.progress$= Observable.create(observer => {
+      this.progressObserver = observer;
+    }).share(); 
+  }
+
+  makeFileRequest(url: string,params: string[],files: File[]): Observable<any>{
+    return Observable.create(observer => {
+      let formData: FormData = new FormData();
+      let xhr: XMLHttpRequest = new XMLHttpRequest();
+
+      for(let i =0; i<files.length;i++){
+        formData.append('file',files[i],files[i].name);
+      }
+
+      xhr.onreadystatechange = ()=>{
+        if(xhr.readyState === 4){
+          if(xhr.status===200){
+            observer.next(JSON.parse(xhr.response));
+            observer.complete();
+          }
+          else{
+            observer.error(xhr.response);
+          }
+        }
+      };
+
+      xhr.upload.onprogress = (event)=>{
+        this.progress = Math.round(event.loaded / event.total *100);
+
+        this.progressObserver.next(this.progress);
+      }
+      xhr.open('POST',url,true);
+      xhr.setRequestHeader('authorization',this.authToken);
+      xhr.send(formData);
+    });
+  }
 
   createAuthenticationHeaders(){
     this.loadToken();

@@ -1,6 +1,42 @@
 const User= require('../models/user');
 const jwt= require('jsonwebtoken');
 const config= require('../config/database');
+const multer = require('multer');
+
+
+function makeid() {
+	var text = "";
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	for (var i = 0; i < 5; i++)
+	text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	return text;
+}
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads');
+  },
+  filename: function (req, file, cb) {
+  	User.findOne({_id:req.decoded.userId},(err,user)=>{
+  		if(err){
+  			res.json({success:false,message:err});
+  		}
+  		else{
+  			if(!user){
+  				res.json({success:false,message:"User not found"});
+  			}
+  			else{
+  				cb(null, "profile" + user.username +makeid());
+  			}
+  		}
+  		
+  	});
+    
+  }
+});
+var upload = multer({ storage:storage}).single('file');
 
 module.exports= (router)=>{
 
@@ -215,6 +251,42 @@ module.exports= (router)=>{
 			}
 		});				
 	});	
+
+	router.post('/edit-photo', upload,function (req,res){
+		console.log(req.file);
+	  if (!req.file) {
+	    res.json({success:false,message:"No file was provided"});
+	  }
+	  else{
+	  	User.findOne({_id:req.decoded.userId},(err,user)=>{
+	  		if(err){
+	  			res.json({success:false,message:'Something went wrong: '+err});
+	  		}
+	  		else{
+	  			if (!user) {
+	  				res.json({success:false,message:'User not found'});
+	  			}
+	  			else{
+	  				// console.log(req.headers);
+	  				// delete req.headers['cookie'];
+	  				// console.log(req.headers);
+	  				
+	  				user.img=req.file.filename;
+	  				user.save({ validateBeforeSave: false },(err)=>{
+	  					if(err){
+	  						res.json({success:false,message:'Something went wrong: '+err});
+	  					}
+	  					else{
+	  						res.json({success:true,file:req.file});
+	  					}
+	  				});
+	  			}
+	  		}
+	  	});
+	  }
+	});
+
+	
 
 	return router;
 };

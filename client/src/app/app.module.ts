@@ -20,6 +20,7 @@ import { EditPostComponent } from './components/news/edit-post/edit-post.compone
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { SamplesComponent } from './components/samples/samples.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
     EditPostComponent,
     PublicProfileComponent,
     SamplesComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,

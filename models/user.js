@@ -125,12 +125,13 @@ const userSchema=new Schema({
 	bio: { type:String,default:null},
 	location: {type:String, default:null},
 	gender: {type:String,default:null},
-	birthday: { type:Date,default:null}
+	birthday: { type:Date,default:null},
+	img: { type:String, default:'Bloggy/uploads/profile/avatar.jpeg'}
 });
 
 
-// Middleware that encrypte password 
-userSchema.pre('save', function(next){
+// Middleware that encrypt password 
+userSchema.pre('save',function(next){
 	if(!this.isModified('password'))
 	return next();
 
@@ -140,6 +141,12 @@ userSchema.pre('save', function(next){
 		next();
 	});
 });
+
+// userSchema.pre('save', function (next) {
+//  let user = this; 
+//  if (validate(this) { 
+//  // doSmoething(); } 
+//  else { // doSmoethingElse(); } });
 
 // userSchema.pre('validate',function(next){
 // 	if(this.bio===null || this.location===null || this.gender=null || this.birthday===null){

@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit {
   location;
   gender;
   birthday;
+  profilePic;
   form;
   commentForm;
   messageClass;
@@ -186,6 +187,7 @@ Forms setup
       this.location=data.user.location;
       this.gender=data.user.gender;
       this.birthday=data.user.birthday;
+      this.profilePic=data.user.img;
   	});
     this.getCurrentUserPosts();
   }

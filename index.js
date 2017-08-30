@@ -9,6 +9,8 @@ const authentication = require('./routes/authentication')(router);
 const posts = require('./routes/posts')(router);
 const bodyParser=require('body-parser');
 const cors=require('cors');
+const utile= require('util');
+
 const port = process.env.PORT || 8080;
 
 
@@ -26,22 +28,33 @@ mongoose.connect(config.uri, (err) => {
 /* =====================
   Express Middlewares
 ===================== */
-
 app.use(cors({
-	origin:'http://localhost:4200'
+	origin:'http://localhost:4200',
+  credentials:true
 }));
 // Place before the routes
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: false,limit:'50mb',parameterLimit: 1000000}));
 app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/public'));
 app.use('/authentication', authentication);
 app.use('/posts',posts);
 
+/* =======
+  Upload file system
+  =========== */
+
+
+
+
+/* =======
+  Routes
+  =========== */
 
 app.get('/',(req,res)=>{
 	res.sendFile(path.join(__dirname+'/public/index.html'));
 });
+
 
 // Allows all angular route, for refreshing page
 app.get('*', function(req, res) {

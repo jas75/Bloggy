@@ -1,11 +1,4 @@
-<div class="row">
-	<div class="col-md-12">
-		
-		 <h2 class="" style="font-size:30px;"><i class="fa fa fa-pencil-square-o"></i> Edit profile</h2>
-		    
-	</div>
-</div>
-<hr>
+
 
 <div class="show-hide-message" *ngIf="message">
     <div [ngClass]="messageClass">
@@ -20,20 +13,64 @@
 	        <div class="panel-body">
 	            <div align="center">
 	                <div class="">
-	                    <img  class="img-thumbnail img-responsive" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="300px" height="300px">
+	                    <img  class="img-thumbnail img-responsive" src="../../../../../../uploads/profile/avatar.jpeg" width="300px" height="300px">
+	                    <!-- <img  id="preview" class="img-thumbnail img-responsive" [src]="profilePic" width="300px" height="300px"> -->
+	                    
 	                </div>
 	                <br>
-	                <form enctype="multipart/form-data" style="display: inline-block;">
-	                	<div class="row">
+	                <form enctype="multipart/form-data">
+	                	<!-- <div class="row">
 	                		<label class="btn btn-default" for="file"><i class="fa fa-upload" aria-hidden="true"></i> Edit Photo</label>
-		                	<input class="input-file" name="filename" id="file" type="file"> 
-		                	<button type="submit" class="btn btn-primary">Send</button>
-		                </div>	
-	                </form>             
+		                	<input style="display: none;" name="userPhoto" id="file"  type="file" ng2FileSelect [uploader]="uploader">  
+		                	<button [disabled]="!uploader.getNotUploadedItems().length" (click)="uploader.uploadAll();" type="submit" class="btn btn-primary">Send</button> -->
+		                	<input type="file" name="file" (change)="onChange($event)">
+		                <!-- </div> -->	
+	                </form>        
 	            </div>
 	        </div>
 	    </div>
 	</div>
+	<!-- <table class="table">
+        <thead>
+        <tr>
+            <th width="50%">Name</th>
+            <th>Size</th>
+            <th>Progress</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of uploader.queue">
+            <td><strong>{{ item.file.name }}</strong></td>
+            <td nowrap>{{ item.file.size/1024/1024 | number:'.2' }} MB</td>
+            <td>
+                <div class="progress" style="margin-bottom: 0;">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                </div>
+            </td>
+            <td class="text-center">
+                <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+            </td>
+            <td nowrap>
+                <button type="button" class="btn btn-success btn-xs"
+                        (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                    <span class="glyphicon glyphicon-upload"></span> Upload
+                </button>
+                <button type="button" class="btn btn-warning btn-xs"
+                        (click)="item.cancel()" [disabled]="!item.isUploading">
+                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                </button>
+                <button type="button" class="btn btn-danger btn-xs"
+                        (click)="item.remove()">
+                    <span class="glyphicon glyphicon-trash"></span> Remove
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table> -->
 	
 	<div class="col-md-9 col-sm-9 col-xs-12"> 
 	    <div class="panel panel-default">
@@ -500,6 +537,4 @@
 	    </div>
 	</div>
 </div>
-
-
 
