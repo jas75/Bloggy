@@ -58,6 +58,7 @@ Schema for post
 const postSchema= new Schema({
 	body:{ type: String, required:true, validate:bodyValidators},
 	createdBy: { type: String},
+	picCreatedBy: { type:String},
 	to: {type:String, default:null },
 	createdAt: { type:Date, default:Date.now()},
 	likes: { type:Number,default:0},
@@ -67,7 +68,8 @@ const postSchema= new Schema({
 	comments: [
 		{
 			comment: { type: String, validate: commentValidators},
-			commentator: { type: String}
+			commentator: { type: String},
+			commentatorPic: {type:String}
 		}
 	]
 });

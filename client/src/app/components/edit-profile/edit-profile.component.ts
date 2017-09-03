@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl,FormGroup,FormBuilder,Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { FileUploader ,FileSelectDirective} from 'ng2-file-upload';
+// import { ApplicationRef } from '@angular/core';
 
 
 @Component({
@@ -20,6 +21,8 @@ export class EditProfileComponent implements OnInit {
   bMonth;
   bDay;
   profilePic;
+  profileDemo;
+  filestoUpload;
   
   // public uploader: FileUploader= new FileUploader({url:'http://localhost:8080/authentication/edit-photo',headers:[{name:'authorization',value:this.authService.authToken}]});
 
@@ -28,16 +31,26 @@ export class EditProfileComponent implements OnInit {
   	private formBuilder:FormBuilder,
   	private authService:AuthService
   	) {
-  	this.createEditForm();  
+  	this.createEditForm(); 
+    this.filestoUpload=[];
   }
 
-  onChange(event){
-    var files=event.srcElement.files;
-    
-    this.authService.makeFileRequest('http://localhost:8080/authentication/edit-photo',[],files).subscribe((data)=>{
-      this.profilePic=data.file.filename;
-      console.log(this.profilePic+'onChange');
+  upload(){
+    this.authService.makeFileRequest('http://localhost:8080/authentication/edit-photo',[],this.filestoUpload).subscribe((data)=>{
+      setTimeout(()=>{
+        this.profilePic=data.fileURL;
+      },0);
     });
+  }
+
+  onFileChange(fileInput: any){
+    this.filestoUpload=fileInput.srcElement.files;
+    console.log(this.filestoUpload);
+    // let reader = new FileReader();
+    // reader.onload =(e:any)=>{
+    //   this.profileDemo=e.target.result;
+    // }
+    // reader.readAsDataURL(fileInput.target.files);
   }
 
   createEditForm(){

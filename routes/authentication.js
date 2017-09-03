@@ -2,6 +2,7 @@ const User= require('../models/user');
 const jwt= require('jsonwebtoken');
 const config= require('../config/database');
 const multer = require('multer');
+const cloudinary= require('cloudinary'); 
 
 
 function makeid() {
@@ -14,9 +15,15 @@ function makeid() {
 	return text;
 }
 
+cloudinary.config({ 
+  cloud_name: 'bloggy', 
+  api_key: '875955353984588', 
+  api_secret: '-kA6iCZExG5A1HVPDBER3saoKJg' 
+});
+
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads');
+    cb(null, './client/src/assets/img/profile');
   },
   filename: function (req, file, cb) {
   	User.findOne({_id:req.decoded.userId},(err,user)=>{
@@ -271,14 +278,31 @@ module.exports= (router)=>{
 	  				// delete req.headers['cookie'];
 	  				// console.log(req.headers);
 	  				
-	  				user.img=req.file.filename;
-	  				user.save({ validateBeforeSave: false },(err)=>{
-	  					if(err){
-	  						res.json({success:false,message:'Something went wrong: '+err});
+	  				// user.img=req.file.filename;
+	  				// user.save({ validateBeforeSave: false },(err)=>{
+	  				// 	if(err){
+	  				// 		res.json({success:false,message:'Something went wrong: '+err});
+	  				// 	}
+	  				// 	else{
+	  				// 		res.json({success:true,file:req.file});
+	  				// 	}
+	  				// });
+	  				cloudinary.v2.uploader.upload(req.file.path,function(error,result){
+	  					if(error){
+	  						console.log('erreur');
 	  					}
 	  					else{
-	  						res.json({success:true,file:req.file});
+	  						user.img=result.url;
+	  					user.save({validateBeforeSave:false},(err)=>{
+	  						if(err){
+	  							res.json({success:false,message:'Something went wrong: '+err});
+	  						}
+	  						else{
+	  							res.json({success:true,message:'Image saved', fileURL:result.url});
+	  						}
+	  					});
 	  					}
+	  					
 	  				});
 	  			}
 	  		}

@@ -13,7 +13,7 @@
 	        <div class="panel-body">
 	            <div align="center">
 	                <div class="">
-	                    <img  class="img-thumbnail img-responsive" src="../../../../../../uploads/profile/avatar.jpeg" width="300px" height="300px">
+	                    <img  class="img-thumbnail img-responsive" [src]="profilePic" width="300px" height="300px">
 	                    <!-- <img  id="preview" class="img-thumbnail img-responsive" [src]="profilePic" width="300px" height="300px"> -->
 	                    
 	                </div>
@@ -23,7 +23,9 @@
 	                		<label class="btn btn-default" for="file"><i class="fa fa-upload" aria-hidden="true"></i> Edit Photo</label>
 		                	<input style="display: none;" name="userPhoto" id="file"  type="file" ng2FileSelect [uploader]="uploader">  
 		                	<button [disabled]="!uploader.getNotUploadedItems().length" (click)="uploader.uploadAll();" type="submit" class="btn btn-primary">Send</button> -->
-		                	<input type="file" name="file" (change)="onChange($event)">
+		                	<label class="btn btn-default" for="file">Edit Photo</label>
+		                	<input style="display: none;" id="file" type="file" name="file" (change)="onFileChange($event)">
+		                	<button (click)="upload()" class="btn btn-primary">Send</button>
 		                <!-- </div> -->	
 	                </form>        
 	            </div>
